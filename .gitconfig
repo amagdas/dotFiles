@@ -1,6 +1,9 @@
 [user]
 	name = Adrian Magdas
-	email = magdasadrian@gmail.com
+	email = adrian.magdas@intel.com
+
+[url "ssh://adrianm@git.kno.com/var/git/"]
+	insteadOf = kno:
 
 [color]
     branch = auto
@@ -107,6 +110,7 @@
     #merges
     ours = "!f() { git co --ours $@ && git add $@; }; f"
     theirs = "!f() { git co --theirs $@ && git add $@; }; f"
+	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold blue)<%an>%Creset' --abbrev-commit
 
 [push]
 	default = tracking
@@ -127,3 +131,6 @@
 	editor = vim
 [credential]
 	helper = cache --timeout=3600
+[filter "media"]
+	clean = git-media-clean %f
+	smudge = git-media-smudge %f
