@@ -27,7 +27,7 @@ set ignorecase
 set smartcase
 set ch=2 " make command line 2 lines high
 set ls=2 " always show status line
-set guifont=Source\ Code\ Pro\ 13
+set guifont=Inconsolata:h15
 set statusline=%t[%{strlen(&fenc)?&fenc:'none'},%{&ff}]%h%m%r%y%=%c,%l/%L\ %P " fancy status line
 filetype plugin on
 set pastetoggle=<F5>
