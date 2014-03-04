@@ -1,9 +1,6 @@
 [user]
 	name = Adrian Magdas
-	email = adrian.magdas@intel.com
-
-[url "ssh://adrianm@git.kno.com/var/git/"]
-	insteadOf = kno:
+	email = magdasadrian@gmail.com
 
 [color]
     branch = auto
