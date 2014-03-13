@@ -1,0 +1,40 @@
+=================ANDROID=================================================
+ant debug install && adb shell 'am start -n com.kno.textbooks/.splash.SplashActivity'
+ctags --recurse --langmap=Java:.java --languages=Java --verbose -f ~/.vim/tags $ANDROID_SDK/sources
+ctags -R src gen libs
+
+Now, after a :make you can step forward and back through the compiler messages using :cn and :cp.
+
+=================GIT=====================================================
+git co -b newBranch
+git commit. ....
+git push origin newBranch
+git branch -a
+git branch --set-upstream newBranch origin/newBranch
+
+=================VIM=====================================================
+gf - go to file under cursor/ EPIC
+CTRL+6 - go back from where you came with gf
+CTRL+SHIFT+6 - go back in a cycle
+CTRL+W+f - open file in new window(buffer)
+V+G+Y - yank whole file
+daw - delete a word
+:Obsess "sessionName" - start a session
+gvim -s "sessionName" - open vim from session
+:xa - save all and close
+\t - open CommandT(awesome)
+:make
+\cc - comment visual selection
+\cu - uncomment
+
+========================Misc=============================================
+ Delete all files terminating in extension .orig //when patch -p0 < mypatch.patch fails
+find -iname *.orig -exec rm {} \;
+
+//THIS works
+ find . -type f -iname *.java -exec grep -l "cancelAllRunningOperations" {} +
+
+Find all files containg string and list only file names
+find . | xargs grep 'DoDestroy*' -sl
+
+find . -name '*.orig' -print0 | xargs -0 rm
