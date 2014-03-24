@@ -123,7 +123,7 @@
   whitespace = nowarn
     
 [merge]
-	tool = kdiff3
+	tool = vimdiff
 [core]
 	editor = vim
 [credential]
