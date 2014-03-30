@@ -74,6 +74,10 @@ set backspace=indent,eol,start
 au BufRead,BufNewFile *.fs set filetype=fs
 au BufRead,BufNewFile *.fsx set filetype=fs
 
+"Html
+autocmd FileType html,xhtml set omnifunc=htmlcomplete#CompleteTags 
+au FileType css set ofu=csscomplete#CompleteCSS
+
 " C# settings
 "au FileType cs set omnifunc=syntaxcomplete#Complete 
 "au FileType cs set foldmethod=marker 
