@@ -38,3 +38,103 @@ Find all files containg string and list only file names
 find . | xargs grep 'DoDestroy*' -sl
 
 find . -name '*.orig' -print0 | xargs -0 rm
+=========================================================================
+
+#for primary
+$ mongod --port 27017 --dbpath /home/adrian/mongo-master --replSet rpl0
+
+#for slave
+$ mongod --port 27018 --dbpath /home/adrian/mongo-slave --replSet rpl0
+
+
+$> mongo
+$> rs.initiate()
+$> rs.add({"_id":1,"host":"adrian.chromebook:27018"})
+$> rs.status()
+
+
+#Elastic search
+- install elastic search
+$cd /usr/share/elasticsearch
+./bin/plugin -install elasticsearch/elasticsearch-mapper-attachments/1.6.0
+./bin/plugin --install com.github.richardwilly98.elasticsearch/elasticsearch-river-mongodb/2.0.0
+./bin/plugin -install elasticsearch/elasticsearch-lang-javascript/1.4.0
+
+curl -XPUT 'http://localhost:9200/_river/mongodb/_meta' -d '{ 
+    "type": "mongodb", 
+    "mongodb": { 
+        "db": "mydb", 
+        "options": {
+          "drop_collection": true,
+          "import_all_collections": true
+        }
+    }, 
+    "index": {
+        "name": "mydb"
+    }
+}'
+
+curl -XPUT "localhost:9200/_river/mongoscriptfilter/_meta" -d'
+{
+  "type": "mongodb",
+    "mongodb": {
+      "db": "mydb", 
+      "collection": "testData", 
+      "script": "ctx.document.point_x = ctx.document.x; delete ctx.document.x;"
+    },
+    "index": {
+      "name": "testscript", 
+      "type": "testData"
+    }
+}'
+
+curl -XPUT "localhost:9200/_river/mongotrans/_meta" -d'
+{
+  "type": "mongodb",
+    "mongodb": {
+      "db": "mydb", 
+       "options": {
+          "drop_collection": true,
+          "import_all_collections": true
+        }, 
+      "script": "ctx.document.point_x = ctx.document.x; ctx.document.point_z = ctx.document.j; delete ctx.document.x; delete ctx.document.j;"
+    },
+    "index": {
+      "name": "mongotrans"
+    }
+}'
+
+for (var i = 5000; i <= 15000; i++) db.sampleData.insert( { j: i*i, name: "mongo script test" + i, x : i, point_y: i*2, even : i % 2 } )
+
+var insertImages = function(from, to) {
+for (var i = from; i <= to; i++) {
+  var date = new Date().getTime();
+  var data = {
+  "ContentType": "image",
+  "CreatedOn": {
+    "date": date
+  },
+  "HeadLine": "beautiful picture " +1,
+  "Provider": "AAP",
+  "PubStatus": "usable",
+  "Renditions": [
+    {
+      "_cls": "RenditionMapped",
+      "ContentURL": "http://pictures.com/beautiful.jpg",
+      "Name": "default",
+      "Width": 100,
+      "Height": 40
+    }
+  ],
+  "Type": "resource",
+  "Version": 1,
+  "VersionOn": {
+    "date": date
+  },
+  "_cls": "ItemMapped.ItemResourceMapped.ItemImageMapped"
+};
+db.sampleData.insert(data);
+}
+}
+curl -XGET http://localhost:9200/mydb/mockData/5347a380576c784f2112df34?pretty=true
+curl -XGET http://localhost:9200/mydb/_search?query:match_all | python -mjson.tool
