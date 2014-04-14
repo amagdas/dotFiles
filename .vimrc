@@ -12,8 +12,22 @@ set scrolloff=3
 set showmode
 set showcmd
 set hidden
+
+" Wildmenu completion "
 set wildmenu
 set wildmode=list:longest
+set wildignore+=.hg,.git,.svn " Version Controls"
+set wildignore+=*.aux,*.out,*.toc "Latex Indermediate files"
+set wildignore+=*.jpg,*.bmp,*.gif,*.png,*.jpeg "Binary Imgs"
+set wildignore+=*.o,*.obj,*.exe,*.dll,*.manifest "Compiled Object files"
+set wildignore+=*.spl "Compiled speolling world list"
+set wildignore+=*.sw? "Vim swap files"
+set wildignore+=*.DS_Store "OSX SHIT"
+set wildignore+=*.luac "Lua byte code"
+set wildignore+=migrations "Django migrations"
+set wildignore+=*.pyc "Python Object codes"
+set wildignore+=*.orig "Merge resolution files"
+
 set lines=999
 set columns=999
 set number
@@ -25,6 +39,33 @@ set hlsearch
 set novisualbell
 set ignorecase
 set smartcase
+
+" Make Vim to handle long lines nicely.
+set wrap
+set textwidth=79
+set formatoptions=qrn1
+
+" Dictionary path, from which the words are being looked up.
+set dictionary=/usr/share/dict/words
+
+" Get Rid of stupid Goddamned help keys
+inoremap <F1> <ESC>
+nnoremap <F1> <ESC>
+vnoremap <F1> <ESC>
+
+" Naviagations using keys up/down/left/right
+" Disabling default keys to learn the hjkl
+nnoremap <up> <nop>
+nnoremap <down> <nop>
+nnoremap <left> <nop>
+nnoremap <right> <nop>
+"inoremap <up> <nop>
+"inoremap <down> <nop>
+"inoremap <left> <nop>
+"inoremap <right> <nop>
+nnoremap j gj
+nnoremap k gk
+
 map <c-j> <c-w>j
 map <c-k> <c-w>k
 map <c-k> <c-w>h
@@ -35,6 +76,7 @@ set ls=2 " always show status line
 
 "Set font correctly in linux/mac/win
 if has("gui_running")
+    colors nucolors
     if has("gui_gtk2")
         set guifont=Source\ Code\ Pro\ 12
     elseif has("gui_macvim")
@@ -68,7 +110,6 @@ set statusline+=%m      "modified flag
 
 syntax enable
 syntax on
-colors nucolors
 
 set backspace=indent,eol,start
 au BufRead,BufNewFile *.fs set filetype=fs
@@ -94,6 +135,8 @@ au FileType python set omnifunc=pythoncomplete#Complete
 let g:SuperTabDefaultCompletionType="context"
 set completeopt=menuone,longest,preview
 
+" Rope settings."
+inoremap <leader>j <ESC>:RopeGotoDefinition<cr>
 map <leader>j :RopeGotoDefinition<CR>
 map <leader>r :RopeRename<CR>
 
@@ -132,6 +175,16 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTree
 set ssop-=options    " do not store global and local values in a session
 set ssop-=folds      " do not store folds
 
+" Tagbar key bindings."
+nmap <leader>l <ESC>:TagbarToggle<cr>
+imap <leader>l <ESC>:TagbarToggle<cr>i
+
+" Mini Buffer some settings."
+let g:miniBufExplMapWindowNavVim = 1
+let g:miniBufExplMapWindowNavArrows = 1
+let g:miniBufExplMapCTabSwitchBufs = 1
+let g:miniBufExplModSelTarget = 1
+
 "expand %% to curent full path
 cabbr <expr> %% expand('%:p:h')   
 set path==**         " gf rulez
@@ -158,10 +211,12 @@ endif
 
 " Source the vimrc file after saving it
 autocmd bufwritepost .vimrc source ~/.vimrc
-
+" disable visual bell
+set noeb vb t_vb=
+au GUIEnter * set vb t_vb=
 " ========== END Gvim Settings ==========
 
 "Getting tired of swap files
-set nobackup
-set nowritebackup
-set noswapfile
+"set nobackup
+"set nowritebackup
+"set noswapfile
