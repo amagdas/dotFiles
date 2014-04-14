@@ -1,0 +1,50 @@
+We are using ElasticSearch for content indexing and MongoDb as a content datastore in the REST service.
+We have a setup so that ElasticSearch is doing an automatic indexing of the content stored in MongoDB.
+Good tutorial to follow-up on: https://coderwall.com/p/sy1qcw
+
+For this setup to work we need the following components installed:
+
+1. MongoDB configured for replication:
+http://docs.mongodb.org/manual/tutorial/convert-standalone-to-replica-set/
+
+#for primary
+$ mongod --port 27017 --dbpath /home/adrian/mongo-master --replSet rpl0
+
+#for slave
+$ mongod --port 27018 --dbpath /home/adrian/mongo-slave --replSet rpl0
+
+$ mongo
+$ rs.initiate()
+$ rs.add({"_id":1,"host":"adrian.chromebook:27018"})
+$ rs.status()
+
+2. Elastic search
+- install elastic search, latest version on the same machine were MongoDB slave is installed 
+
+3. Install the following elasticsearch plugins: mapper-attachments, river-mongodb, lang-javascript
+
+$cd /usr/share/elasticsearch
+./bin/plugin -install elasticsearch/elasticsearch-mapper-attachments/2.0.0
+./bin/plugin --install com.github.richardwilly98.elasticsearch/elasticsearch-river-mongodb/2.0.0
+./bin/plugin -install elasticsearch/elasticsearch-lang-javascript/1.4.0
+
+4. Configure river-mongodb driver to index the content from MongoDb
+
+curl -XPUT "localhost:9200/_river/content_image/_meta" -d'
+{
+    type: "mongodb",
+    mongodb: {
+      
+      db: "application", 
+      collection: "content_mapped",
+      options: {
+          "drop_collection": true
+      }, 
+      script: "ctx.document.Type = ctx.document.ContentType; ctx.document.Status = ctx.document.PubStatus; ctx.document.VersionOn = ctx.document.VersionOn.date; ctx.document.CreatedOn = ctx.document.CreatedOn.date; if(ctx.document.Renditions.length > 0) { var oldRenditions = ctx.document.Renditions; var newRenditions = {}; for(var i = 0; i < oldRenditions.length; i++){ var currentRend = oldRenditions[i]; var name = currentRend.Name; currentRend.href = currentRend.ContentURL; delete currentRend.Name; delete currentRend.ContentURL; delete currentRend._cls; newRenditions[name] = currentRend; } ctx.document.Renditions = newRenditions; } delete ctx.document.ContentType; delete ctx.document.PubStatus; delete ctx.document._cls;"
+      },
+        index: {
+            name: "content_image"
+        }
+}'
+
+5. Status for the river plugin: http://localhost:9200/_plugin/river-mongodb/
