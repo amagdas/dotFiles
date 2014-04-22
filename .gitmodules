@@ -79,3 +79,6 @@
 [submodule ".vim/bundle/rope-vim"]
 	path = .vim/bundle/rope-vim
 	url = https://github.com/klen/rope-vim
+[submodule ".vim/bundle/solarized"]
+	path = .vim/bundle/solarized
+	url = https://github.com/altercation/vim-colors-solarized.git

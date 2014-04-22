@@ -138,7 +138,7 @@ var insertImages = function(from, to) {
                 },
                 "_cls": "ItemMapped.ItemResourceMapped.ItemImageMapped"
         };
-        db.sampleData.insert(data);
+        db.item_mapped.insert(data);
     }
 }
 

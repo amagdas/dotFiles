@@ -76,9 +76,9 @@ set ls=2 " always show status line
 
 "Set font correctly in linux/mac/win
 if has("gui_running")
-    colors nucolors
+    colors jellybeans
     if has("gui_gtk2")
-        set guifont=Source\ Code\ Pro\ 12
+        set guifont=Source\ Code\ Pro\ 11
     elseif has("gui_macvim")
         set guifont=Source\ Code\ Pro:h13
     elseif has("gui_win32")
@@ -108,6 +108,7 @@ set statusline+=%y      "filetype
 set statusline+=%r      "read only flag
 set statusline+=%m      "modified flag
 
+set background=dark
 syntax enable
 syntax on
 
@@ -206,7 +207,7 @@ if has("gui_running")
     set listchars=tab:▸\ ,eol:¬         " Invisibles using the Textmate style
 else
     set t_Co=256
-    colorschem nucolors
+    colorschem jellybeans
 endif
 
 " Source the vimrc file after saving it
