@@ -7,9 +7,6 @@
 [submodule ".vim/bundle/ctrlp.vim"]
 	path = .vim/bundle/ctrlp.vim
 	url = https://github.com/kien/ctrlp.vim.git
-[submodule ".vim/bundle/fsharp-vim"]
-	path = .vim/bundle/fsharp-vim
-	url = https://github.com/DrTom/fsharp-vim.git
 [submodule ".vim/bundle/gitv"]
 	path = .vim/bundle/gitv
 	url = https://github.com/gregsexton/gitv.git
@@ -58,12 +55,6 @@
 [submodule ".vim/bundle/gundo"]
 	path = .vim/bundle/gundo
 	url = https://github.com/sjl/gundo.vim.git
-[submodule ".vim/bundle/pydoc"]
-	path = .vim/bundle/pydoc
-	url = https://github.com/fs111/pydoc.vim.git
-[submodule ".vim/bundle/py.test"]
-	path = .vim/bundle/py.test
-	url = https://github.com/alfredodeza/pytest.vim.git
 [submodule ".vim/bundle/tasklist"]
 	path = .vim/bundle/tasklist
 	url = https://github.com/vim-scripts/TaskList.vim.git
@@ -76,9 +67,9 @@
 [submodule ".vim/bundle/vim-virtualenv"]
 	path = .vim/bundle/vim-virtualenv
 	url = https://github.com/jmcantrell/vim-virtualenv
-[submodule ".vim/bundle/rope-vim"]
-	path = .vim/bundle/rope-vim
-	url = https://github.com/klen/rope-vim
 [submodule ".vim/bundle/solarized"]
 	path = .vim/bundle/solarized
 	url = https://github.com/altercation/vim-colors-solarized.git
+[submodule ".vim/bundle/python-mode"]
+	path = .vim/bundle/python-mode
+	url = git://github.com/klen/python-mode.git
