@@ -71,12 +71,12 @@ map <c-k> <c-w>k
 map <c-k> <c-w>h
 map <c-l> <c-w>l
 map <leader>g :GundoToggle<CR>
-set ch=2 " make command line 2 lines high
 set ls=2 " always show status line
 
 "Set font correctly in linux/mac/win
 if has("gui_running")
     colors jellybeans
+    set guifont=Source\ Code\ Pro\ 11
     if has("gui_gtk2")
         set guifont=Source\ Code\ Pro\ 11
     elseif has("gui_macvim")
