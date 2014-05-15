@@ -1,4 +1,5 @@
 set nocompatible
+let g:pymode_lint_ignore="E501,W601"
 execute pathogen#infect()
 set ruler
 set ttyfast
@@ -88,7 +89,6 @@ endif
 
 filetype plugin on
 set pastetoggle=<F5>
-map <F4> :execute "vimgrep /" . expand("<cword>") . "/j **" <Bar> cw<CR>
 nmap <leader>a <Esc>:Ack!
 
 "Status line
@@ -151,7 +151,7 @@ nmap <silent><Leader>tp <Esc>:Pytest previous<CR>
 nmap <silent><Leader>te <Esc>:Pytest error<CR>
 
 "nose integration
-"map <leader>dt :set makeprg=python\ manage.py\ test\|:call MakeGreen()<CR>
+map <leader>dt :set makeprg=python\ manage.py\ test\|:call MakeGreen()<CR>
 
 " Add the virtualenv's site-packages to vim path
 py << EOF
@@ -207,7 +207,7 @@ if has("gui_running")
     set listchars=tab:▸\ ,eol:¬         " Invisibles using the Textmate style
 else
     set t_Co=256
-    colorschem jellybeans
+    colorscheme jellybeans
 endif
 
 " Source the vimrc file after saving it
