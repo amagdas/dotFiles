@@ -1,5 +1,5 @@
 set nocompatible
-let g:pymode_lint_ignore="E501,W601"
+let g:pymode_options_max_line_length = 119
 execute pathogen#infect()
 set ruler
 set ttyfast
@@ -43,7 +43,7 @@ set smartcase
 
 " Make Vim to handle long lines nicely.
 set wrap
-set textwidth=79
+set textwidth=119
 set formatoptions=qrn1
 
 " Dictionary path, from which the words are being looked up.
@@ -163,6 +163,7 @@ if 'VIRTUAL_ENV' in os.environ:
     sys.path.insert(0, project_base_dir)
     activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
     execfile(activate_this, dict(__file__=activate_this))
+sys.path.append(os.getcwd())
 EOF
 
 "end python changes
@@ -216,7 +217,6 @@ autocmd bufwritepost .vimrc source ~/.vimrc
 set noeb vb t_vb=
 au GUIEnter * set vb t_vb=
 " ========== END Gvim Settings ==========
-
 "Getting tired of swap files
 "set nobackup
 "set nowritebackup
