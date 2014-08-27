@@ -1,5 +1,6 @@
 set nocompatible
 let g:pymode_options_max_line_length = 119
+let g:ackprg = 'ag --nogroup --nocolor --column'
 execute pathogen#infect()
 set ruler
 set ttyfast
@@ -135,11 +136,6 @@ au FileType css set ofu=csscomplete#CompleteCSS
 au FileType python set omnifunc=pythoncomplete#Complete 
 let g:SuperTabDefaultCompletionType="context"
 set completeopt=menuone,longest,preview
-
-" Rope settings."
-inoremap <leader>j <ESC>:RopeGotoDefinition<cr>
-map <leader>j :RopeGotoDefinition<CR>
-map <leader>r :RopeRename<CR>
 
 " Execute the tests
 nmap <silent><Leader>tf <Esc>:Pytest file<CR>
