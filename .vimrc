@@ -77,7 +77,6 @@ set ls=2 " always show status line
 
 "Set font correctly in linux/mac/win
 if has("gui_running")
-    colors jellybeans
     set guifont=Source\ Code\ Pro\ 11
     if has("gui_gtk2")
         set guifont=Source\ Code\ Pro\ 11
@@ -195,6 +194,7 @@ set path==**         " gf rulez
 " =========== Gvim Settings =============
 " Removing scrollbars
 if has("gui_running")
+    colors railscasts
     set guitablabel=%-0.12t%M
     set guioptions-=T
     set guioptions-=r
@@ -204,7 +204,7 @@ if has("gui_running")
     set listchars=tab:▸\ ,eol:¬         " Invisibles using the Textmate style
 else
     set t_Co=256
-    colorscheme jellybeans
+    colorscheme railscasts
 endif
 
 " Source the vimrc file after saving it
