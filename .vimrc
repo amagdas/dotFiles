@@ -1,7 +1,50 @@
 set nocompatible
+
+filetype off
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+" let Vundle manage Vundle, required
+Plugin 'gmarik/Vundle.vim'
+
+Plugin 'bling/vim-airline'
+Plugin 'elixir-lang/vim-elixir'
+Plugin 'ervandew/supertab'
+Plugin 'fholgado/minibufexpl.vim'
+Plugin 'godlygeek/csapprox'
+Plugin 'gregsexton/gitv'
+Plugin 'jiangmiao/auto-pairs'
+Plugin 'jmcantrell/vim-virtualenv'
+Plugin 'kien/ctrlp.vim'
+Plugin 'klen/python-mode'
+Plugin 'majutsushi/tagbar'
+Plugin 'mileszs/ack.vim'
+Plugin 'pangloss/vim-javascript'
+Plugin 'plasticboy/vim-markdown'
+Plugin 'reinh/vim-makegreen'
+Plugin 'rking/ag.vim'
+Plugin 'rykka/riv.vim'
+Plugin 'scrooloose/nerdcommenter'
+Plugin 'scrooloose/nerdtree'
+Plugin 'scrooloose/syntastic'
+Plugin 'sjl/gundo.vim'
+Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-git'
+Plugin 'tpope/vim-jdaddy'
+Plugin 'tpope/vim-obsession'
+Plugin 'tpope/vim-repeat'
+Plugin 'tpope/vim-sensible'
+Plugin 'tpope/vim-surround'
+Plugin 'vim-scripts/TaskList.vim'
+Plugin 'vim-scripts/simple-pairs'
+
+call vundle#end()            " required
+filetype plugin indent on    " required
+
 let g:pymode_options_max_line_length = 119
 let g:ackprg = 'ag --nogroup --nocolor --column'
-execute pathogen#infect()
+" execute pathogen#infect()
 set ruler
 set ttyfast
 set modelines=0
