@@ -24,10 +24,9 @@ Plugin 'pangloss/vim-javascript'
 Plugin 'plasticboy/vim-markdown'
 Plugin 'reinh/vim-makegreen'
 Plugin 'rking/ag.vim'
-Plugin 'rykka/riv.vim'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'scrooloose/nerdtree'
-Plugin 'scrooloose/syntastic'
+"Plugin 'scrooloose/syntastic'
 Plugin 'sjl/gundo.vim'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-git'
@@ -44,7 +43,6 @@ filetype plugin indent on    " required
 
 let g:pymode_options_max_line_length = 119
 let g:ackprg = 'ag --nogroup --nocolor --column'
-" execute pathogen#infect()
 set ruler
 set ttyfast
 set modelines=0
@@ -91,7 +89,7 @@ set textwidth=119
 set formatoptions=qrn1
 
 " Dictionary path, from which the words are being looked up.
-set dictionary=/usr/share/dict/words
+set dictionary=/usr/share/dict/cracklib-small
 
 " Get Rid of stupid Goddamned help keys
 inoremap <F1> <ESC>
@@ -155,6 +153,11 @@ set background=dark
 syntax enable
 syntax on
 
+"Folding
+set foldlevelstart=20
+set foldlevel=20
+set foldmethod=syntax
+
 set backspace=indent,eol,start
 au BufRead,BufNewFile *.fs set filetype=fs
 au BufRead,BufNewFile *.fsx set filetype=fs
@@ -179,6 +182,7 @@ au FileType python set omnifunc=pythoncomplete#Complete
 let g:SuperTabDefaultCompletionType="context"
 set completeopt=menuone,longest,preview
 
+"let g:syntastic_python_checkers = ['pylint']
 " Execute the tests
 nmap <silent><Leader>tf <Esc>:Pytest file<CR>
 nmap <silent><Leader>tc <Esc>:Pytest class<CR>
@@ -247,7 +251,7 @@ if has("gui_running")
     set listchars=tab:▸\ ,eol:¬         " Invisibles using the Textmate style
 else
     set t_Co=256
-    colorscheme railscasts
+    colorscheme railscasts-alt
 endif
 
 " Source the vimrc file after saving it
