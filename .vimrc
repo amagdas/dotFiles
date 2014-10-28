@@ -205,7 +205,7 @@ if 'VIRTUAL_ENV' in os.environ:
     sys.path.insert(0, project_base_dir)
     activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
     execfile(activate_this, dict(__file__=activate_this))
-sys.path.append(os.getcwd())
+    sys.path.append(os.getcwd())
 EOF
 
 "end python changes
@@ -214,6 +214,24 @@ EOF
 autocmd vimenter * if !argc() | NERDTree | endif
 nmap <silent> <C-n> :NERDTreeToggle<CR>
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+
+" Check if NERDTree is open or active
+function! s:isNERDTreeOpen()        
+  return exists("t:NERDTreeBufName") && (bufwinnr(t:NERDTreeBufName) != -1)
+endfunction
+ 
+" Call NERDTreeFind iff NERDTree is active, current window contains a modifiable
+" file, and we're not in vimdiff
+function! s:syncTree()
+    if &modifiable && s:isNERDTreeOpen() && strlen(expand('%')) > 0 && !&diff
+        NERDTreeFind
+        wincmd p
+    endif
+endfunction
+
+" Highlight currently open buffer in NERDTree
+autocmd bufenter * call s:syncTree()
+
 
 "vim-obsess settings
 set ssop-=options    " do not store global and local values in a session
@@ -241,7 +259,7 @@ set path==**         " gf rulez
 " =========== Gvim Settings =============
 " Removing scrollbars
 if has("gui_running")
-    colors railscasts
+    colors railscasts-alt
     set guitablabel=%-0.12t%M
     set guioptions-=T
     set guioptions-=r
