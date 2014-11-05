@@ -37,6 +37,7 @@ Plugin 'tpope/vim-sensible'
 Plugin 'tpope/vim-surround'
 Plugin 'vim-scripts/TaskList.vim'
 Plugin 'vim-scripts/simple-pairs'
+Plugin 'esneider/YUNOcommit.vim'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -120,7 +121,7 @@ set ls=2 " always show status line
 if has("gui_running")
     set guifont=Source\ Code\ Pro\ 11
     if has("gui_gtk2")
-        set guifont=Source\ Code\ Pro\ 11
+        set guifont=Source\ Code\ Pro\ 12
     elseif has("gui_macvim")
         set guifont=Source\ Code\ Pro:h13
     elseif has("gui_win32")
