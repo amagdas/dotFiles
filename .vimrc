@@ -36,7 +36,7 @@ Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-sensible'
 Plugin 'tpope/vim-surround'
 Plugin 'vim-scripts/TaskList.vim'
-Plugin 'vim-scripts/simple-pairs'
+"Plugin 'vim-scripts/simple-pairs'
 Plugin 'esneider/YUNOcommit.vim'
 
 call vundle#end()            " required
@@ -121,7 +121,7 @@ set ls=2 " always show status line
 if has("gui_running")
     set guifont=Source\ Code\ Pro\ 11
     if has("gui_gtk2")
-        set guifont=Source\ Code\ Pro\ 12
+        set guifont=Source\ Code\ Pro\ 10
     elseif has("gui_macvim")
         set guifont=Source\ Code\ Pro:h13
     elseif has("gui_win32")
@@ -196,18 +196,21 @@ nmap <silent><Leader>te <Esc>:Pytest error<CR>
 "nose integration
 map <leader>dt :set makeprg=python\ manage.py\ test\|:call MakeGreen()<CR>
 
+"behave integration
+map <leader>bb :set makeprg=behave\ %\|:call MakeGreen()<CR>
+
 " Add the virtualenv's site-packages to vim path
-py << EOF
-import os.path
-import sys
-import vim
-if 'VIRTUAL_ENV' in os.environ:
-    project_base_dir = os.environ['VIRTUAL_ENV']
-    sys.path.insert(0, project_base_dir)
-    activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
-    execfile(activate_this, dict(__file__=activate_this))
-    sys.path.append(os.getcwd())
-EOF
+"py << EOF
+"import os.path
+"import sys
+"import vim
+"if 'VIRTUAL_ENV' in os.environ:
+"    project_base_dir = os.environ['VIRTUAL_ENV']
+"    sys.path.insert(0, project_base_dir)
+"    activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
+"    execfile(activate_this, dict(__file__=activate_this))
+"    sys.path.append(os.getcwd())
+"EOF
 
 "end python changes
 
