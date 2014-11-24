@@ -36,12 +36,29 @@ Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-sensible'
 Plugin 'tpope/vim-surround'
 Plugin 'vim-scripts/TaskList.vim'
-"Plugin 'vim-scripts/simple-pairs'
 Plugin 'esneider/YUNOcommit.vim'
+"Plugin 'SirVer/ultisnips'
+"Plugin 'honza/vim-snippets'
+Plugin 'othree/javascript-libraries-syntax.vim'
+Plugin 'burnettk/vim-angular'
+Plugin 'claco/jasmine.vim'
+Plugin 'matthewsimo/angular-vim-snippets'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
 
+" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
+"let g:UltiSnipsExpandTrigger="<tab>"
+"let g:UltiSnipsJumpForwardTrigger="<c-b>"
+"let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+
+" If you want :UltiSnipsEdit to split your window.
+"let g:UltiSnipsEditSplit="vertical"
+
+
+let g:used_javascript_libs = 'underscore,angularjs, angularui, jasmine'
+" Override go-to.definition key shortcut to Ctrl-]
+let g:pymode_rope_goto_definition_bind = "<C-]>"
 let g:pymode_options_max_line_length = 119
 let g:ackprg = 'ag --nogroup --nocolor --column'
 set ruler
