@@ -27,10 +27,10 @@ Plugin 'rking/ag.vim'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'scrooloose/nerdtree'
 "Plugin 'scrooloose/syntastic'
-Plugin 'sjl/gundo.vim'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-git'
 Plugin 'tpope/vim-jdaddy'
+Plugin 'tpope/vim-unimpaired'
 Plugin 'tpope/vim-obsession'
 Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-sensible'
@@ -39,10 +39,6 @@ Plugin 'vim-scripts/TaskList.vim'
 Plugin 'esneider/YUNOcommit.vim'
 "Plugin 'SirVer/ultisnips'
 "Plugin 'honza/vim-snippets'
-Plugin 'othree/javascript-libraries-syntax.vim'
-Plugin 'burnettk/vim-angular'
-Plugin 'claco/jasmine.vim'
-Plugin 'matthewsimo/angular-vim-snippets'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -56,11 +52,12 @@ filetype plugin indent on    " required
 "let g:UltiSnipsEditSplit="vertical"
 
 
-let g:used_javascript_libs = 'underscore,angularjs, angularui, jasmine'
 " Override go-to.definition key shortcut to Ctrl-]
+let mapleader = "\<Space>"
 let g:pymode_rope_goto_definition_bind = "<C-]>"
 let g:pymode_options_max_line_length = 119
 let g:ackprg = 'ag --nogroup --nocolor --column'
+
 set ruler
 set ttyfast
 set modelines=0
@@ -127,11 +124,38 @@ nnoremap <right> <nop>
 nnoremap j gj
 nnoremap k gk
 
+"Buffer stuff -------------------------{{{
+"Switch between buffers using th and tj
+nnoremap tk  :bnext<CR>
+nnoremap tj  :bprev<CR>
+"Go to first and last buffers with th and tl
+nnoremap th  :bfirst<CR>
+nnoremap tl  :blast<CR>
+"New buffer with tn
+nnoremap tn  :new<Space>
+"Close a tab with td
+nnoremap td  :bdelete<CR>
+"}}}
+
+"Save quicker with <leader>w - saves all buffers
+nnoremap <leader>w :wa<CR>
+"Switch between windows in the same tab -------------------------{{{
+nnoremap <silent> <C-h> <C-w>h
+nnoremap <silent> <C-j> <C-w>j
+nnoremap <silent> <C-l> <C-w>l
+nnoremap <silent> <C-k> <C-w>k
+"}}}
+"make ctrl backspace delete the entire word when in insert mode
+inoremap <C-BS> <C-W>
+
+"make 'kj' do the equivalent of escape
+:inoremap kj <Esc>
+:cnoremap kj <Esc>
+
 map <c-j> <c-w>j
 map <c-k> <c-w>k
 map <c-k> <c-w>h
 map <c-l> <c-w>l
-map <leader>g :GundoToggle<CR>
 set ls=2 " always show status line
 
 "Set font correctly in linux/mac/win
@@ -200,7 +224,6 @@ au FileType python set omnifunc=pythoncomplete#Complete
 let g:SuperTabDefaultCompletionType="context"
 set completeopt=menuone,longest,preview
 
-"let g:syntastic_python_checkers = ['pylint']
 " Execute the tests
 nmap <silent><Leader>tf <Esc>:Pytest file<CR>
 nmap <silent><Leader>tc <Esc>:Pytest class<CR>
@@ -215,19 +238,6 @@ map <leader>dt :set makeprg=python\ manage.py\ test\|:call MakeGreen()<CR>
 
 "behave integration
 map <leader>bb :set makeprg=behave\ %\|:call MakeGreen()<CR>
-
-" Add the virtualenv's site-packages to vim path
-"py << EOF
-"import os.path
-"import sys
-"import vim
-"if 'VIRTUAL_ENV' in os.environ:
-"    project_base_dir = os.environ['VIRTUAL_ENV']
-"    sys.path.insert(0, project_base_dir)
-"    activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
-"    execfile(activate_this, dict(__file__=activate_this))
-"    sys.path.append(os.getcwd())
-"EOF
 
 "end python changes
 
