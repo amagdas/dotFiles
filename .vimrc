@@ -7,9 +7,13 @@ call vundle#begin()
 
 " let Vundle manage Vundle, required
 Plugin 'gmarik/Vundle.vim'
-
 Plugin 'bling/vim-airline'
+" Elixir
 Plugin 'elixir-lang/vim-elixir'
+Plugin 'BjRo/vim-extest'
+Plugin 'mattreduce/vim-mix'
+Plugin 'mmorearty/elixir-ctags'
+" End for elixir plugins
 Plugin 'ervandew/supertab'
 Plugin 'fholgado/minibufexpl.vim'
 Plugin 'godlygeek/csapprox'
@@ -53,7 +57,6 @@ filetype plugin indent on    " required
 
 
 " Override go-to.definition key shortcut to Ctrl-]
-let mapleader = "\<Space>"
 let g:pymode_rope_goto_definition_bind = "<C-]>"
 let g:pymode_options_max_line_length = 119
 let g:ackprg = 'ag --nogroup --nocolor --column'
