@@ -61,6 +61,10 @@ let g:pymode_rope_goto_definition_bind = "<C-]>"
 let g:pymode_options_max_line_length = 119
 let g:ackprg = 'ag --nogroup --nocolor --column'
 
+map <leader>X :ExTestRunFile<CR>
+map <leader>x :ExTestRunTest<CR>
+map <leader>xl :ExTestRunLast<CR>
+
 set ruler
 set ttyfast
 set modelines=0
