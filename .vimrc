@@ -14,14 +14,17 @@ Plugin 'BjRo/vim-extest'
 Plugin 'mattreduce/vim-mix'
 Plugin 'mmorearty/elixir-ctags'
 " End for elixir plugins
+" Python
+Plugin 'jmcantrell/vim-virtualenv'
+Plugin 'klen/python-mode'
+
+Plugin 'kien/ctrlp.vim'
+
 Plugin 'ervandew/supertab'
 Plugin 'fholgado/minibufexpl.vim'
 Plugin 'godlygeek/csapprox'
 Plugin 'gregsexton/gitv'
 Plugin 'jiangmiao/auto-pairs'
-Plugin 'jmcantrell/vim-virtualenv'
-Plugin 'kien/ctrlp.vim'
-Plugin 'klen/python-mode'
 Plugin 'majutsushi/tagbar'
 Plugin 'mileszs/ack.vim'
 Plugin 'pangloss/vim-javascript'
@@ -41,20 +44,10 @@ Plugin 'tpope/vim-sensible'
 Plugin 'tpope/vim-surround'
 Plugin 'vim-scripts/TaskList.vim'
 Plugin 'esneider/YUNOcommit.vim'
-"Plugin 'SirVer/ultisnips'
-"Plugin 'honza/vim-snippets'
+Plugin 'vim-scripts/camelcasemotion'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
-
-" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
-"let g:UltiSnipsExpandTrigger="<tab>"
-"let g:UltiSnipsJumpForwardTrigger="<c-b>"
-"let g:UltiSnipsJumpBackwardTrigger="<c-z>"
-
-" If you want :UltiSnipsEdit to split your window.
-"let g:UltiSnipsEditSplit="vertical"
-
 
 " Override go-to.definition key shortcut to Ctrl-]
 let g:pymode_rope_goto_definition_bind = "<C-]>"
@@ -208,8 +201,8 @@ set foldlevel=20
 set foldmethod=syntax
 
 set backspace=indent,eol,start
-au BufRead,BufNewFile *.fs set filetype=fs
-au BufRead,BufNewFile *.fsx set filetype=fs
+"au BufRead,BufNewFile *.fs set filetype=fs
+"au BufRead,BufNewFile *.fsx set filetype=fs
 
 "Html
 autocmd FileType html,xhtml set omnifunc=htmlcomplete#CompleteTags 
@@ -249,8 +242,8 @@ map <leader>bb :set makeprg=behave\ %\|:call MakeGreen()<CR>
 "end python changes
 
 "nerd-tree
-autocmd vimenter * if !argc() | NERDTree | endif
 nmap <silent> <C-n> :NERDTreeToggle<CR>
+autocmd vimenter * if !argc() | NERDTree | endif
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 
 " Check if NERDTree is open or active
