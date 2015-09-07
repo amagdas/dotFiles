@@ -1,5 +1,5 @@
 # Path to your oh-my-zsh installation.
-export ZSH=/home/adrian/.oh-my-zsh
+export ZSH=~/.oh-my-zsh
 
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
@@ -85,4 +85,3 @@ source $ZSH/oh-my-zsh.sh
 alias e="emacs -nw"
 alias tmux="tmux -2"
 export WORKON_HOME=~/.virtualenvs
-source /usr/bin/virtualenvwrapper.sh
