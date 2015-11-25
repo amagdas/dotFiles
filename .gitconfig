@@ -126,7 +126,6 @@
     default = current
 [diff]
   memonicprefix = true
-  tool = meld
   algorithm = patience
 [branch]
   autosetuprebase = always
@@ -136,7 +135,7 @@
 [merge]
 	tool = vimdiff
 [core]
-	editor = emacs
+	editor = "emacs -nw"
 [credential]
 	helper = cache --timeout=86400
 [filter "media"]
