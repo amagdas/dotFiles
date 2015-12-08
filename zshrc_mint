@@ -1,5 +1,5 @@
 # Path to your oh-my-zsh installation.
-  export ZSH=/home/adrian/.oh-my-zsh
+export ZSH=/home/crafter/.oh-my-zsh
 
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
@@ -55,7 +55,7 @@ plugins=(git docker docker-compose elixir nodejs postgresql)
 # User configuration
 
 export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games"
-export PATH="/home/adrian/.cask/bin:/home/adrian/bin_utils:$PATH"
+export PATH="/home/crafter/.cask/bin:/home/crafter/bin_utils:$PATH"
 # export MANPATH="/usr/local/man:$MANPATH"
 
 source $ZSH/oh-my-zsh.sh
@@ -85,5 +85,6 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias e="emacs -nw"
-export TERM=screen-256color-bce
-export DEFAULT_USER=adrian
+#export TERM=screen-256color-bce
+export TERM="xterm-256color"
+export DEFAULT_USER=crafter

@@ -101,9 +101,9 @@ ex ()
 
 export TERM="xterm-256color"
 # prompt
-export WORKON_HOME=~/.virtualenvs
 GIT_PS1_SHOWDIRTYSTATE=1
 GIT_PS1_SHOWUNTRACKEDFILES=1
 PS1='\[\033[01;32m\]\u@\h\[\033[01;34m\] \w\[\033[01;33m\]$(__git_ps1)\[\033[01;34m\] \$\[\033[00m\] '
-export PATH="/home/adrian/.cask/bin:$PATH"
+export PATH="/home/crafter/.cask/bin:$PATH"
+export PATH="/home/crafter/bin_utils:$PATH"
 export CHROME_BIN=/opt/google/chrome/google-chrome
