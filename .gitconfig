@@ -135,7 +135,7 @@
 [merge]
 	tool = vimdiff
 [core]
-	editor = "emacs -nw"
+	editor = "vim"
 [credential]
 	helper = cache --timeout=86400
 [filter "media"]
