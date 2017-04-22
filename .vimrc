@@ -8,18 +8,20 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'gmarik/Vundle.vim'
 Plugin 'bling/vim-airline'
+
 " Elixir
 Plugin 'elixir-lang/vim-elixir'
 Plugin 'BjRo/vim-extest'
 Plugin 'mattreduce/vim-mix'
 Plugin 'mmorearty/elixir-ctags'
 " End for elixir plugins
+"
 " Python
 Plugin 'jmcantrell/vim-virtualenv'
 Plugin 'klen/python-mode'
 
-Plugin 'kien/ctrlp.vim'
-
+Plugin 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plugin 'junegunn/fzf.vim'
 Plugin 'ervandew/supertab'
 Plugin 'fholgado/minibufexpl.vim'
 Plugin 'godlygeek/csapprox'
@@ -33,7 +35,8 @@ Plugin 'reinh/vim-makegreen'
 Plugin 'rking/ag.vim'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'scrooloose/nerdtree'
-"Plugin 'scrooloose/syntastic'
+Plugin 'scrooloose/syntastic'
+Plugin 'mtscout6/syntastic-local-eslint.vim'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-git'
 Plugin 'tpope/vim-jdaddy'
@@ -42,21 +45,21 @@ Plugin 'tpope/vim-obsession'
 Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-sensible'
 Plugin 'tpope/vim-surround'
-Plugin 'vim-scripts/TaskList.vim'
 Plugin 'esneider/YUNOcommit.vim'
 Plugin 'vim-scripts/camelcasemotion'
+
+" JSX
+Plugin 'mtscout6/vim-cjsx'
+Plugin 'digitaltoad/vim-jade'
+
+Plugin 'joshdick/onedark.vim'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
 
-" Override go-to.definition key shortcut to Ctrl-]
-let g:pymode_rope_goto_definition_bind = "<C-]>"
-let g:pymode_options_max_line_length = 119
-let g:ackprg = 'ag --nogroup --nocolor --column'
+let mapleader = ","
 
-map <leader>X :ExTestRunFile<CR>
-map <leader>x :ExTestRunTest<CR>
-map <leader>xl :ExTestRunLast<CR>
+let g:ackprg = 'ag --nogroup --nocolor --column'
 
 set ruler
 set ttyfast
@@ -91,7 +94,7 @@ set columns=999
 set number
 set incsearch
 set autoindent
-set vb t_vb= " 
+set vb t_vb= "
 set showmatch
 set hlsearch
 set novisualbell
@@ -105,6 +108,9 @@ set formatoptions=qrn1
 
 " Dictionary path, from which the words are being looked up.
 set dictionary=/usr/share/dict/cracklib-small
+
+let g:syntastic_javascript_checkers = ['eslint']
+let g:syntastic_javascript_eslint_exe = 'node_modules/eslint/bin/eslint.js'
 
 " Get Rid of stupid Goddamned help keys
 inoremap <F1> <ESC>
@@ -124,17 +130,23 @@ nnoremap <right> <nop>
 nnoremap j gj
 nnoremap k gk
 
+" FZF
+nnoremap <leader>t :FZF<CR>
+
+" Default fzf layout
+" - down / up / left / right
+let g:fzf_layout = { 'down': '~50%' }
+
+
 "Buffer stuff -------------------------{{{
-"Switch between buffers using th and tj
-nnoremap tk  :bnext<CR>
-nnoremap tj  :bprev<CR>
-"Go to first and last buffers with th and tl
-nnoremap th  :bfirst<CR>
-nnoremap tl  :blast<CR>
+"Switch between buffers using ,,
+nnoremap <leader>,  :bprev<CR>
+
 "New buffer with tn
-nnoremap tn  :new<Space>
+nnoremap <leader>new  :new<Space>
+
 "Close a tab with td
-nnoremap td  :bdelete<CR>
+nnoremap <leader>bd  :bdelete<CR>
 "}}}
 
 "Save quicker with <leader>w - saves all buffers
@@ -170,14 +182,26 @@ if has("gui_running")
     endif
 endif
 
+if (has("termguicolors"))
+    set termguicolors
+endif
+
 filetype plugin on
 set pastetoggle=<F5>
 nmap <leader>a <Esc>:Ack!
+
+" syntastic
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_aggregate_errors = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
 
 "Status line
 set statusline=%t[%{strlen(&fenc)?&fenc:'none'},%{&ff}]%h%m%r%y%=%c,%l/%L\ %P " fancy status line
 "display a warning if fileformat isnt unix
 set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%{&ff!='unix'?'['.&ff.']':''}
 set statusline+=%*
 
@@ -201,26 +225,13 @@ set foldlevel=20
 set foldmethod=syntax
 
 set backspace=indent,eol,start
-"au BufRead,BufNewFile *.fs set filetype=fs
-"au BufRead,BufNewFile *.fsx set filetype=fs
 
 "Html
-autocmd FileType html,xhtml set omnifunc=htmlcomplete#CompleteTags 
+autocmd FileType html,xhtml set omnifunc=htmlcomplete#CompleteTags
 au FileType css set ofu=csscomplete#CompleteCSS
 
-" C# settings
-"au FileType cs set omnifunc=syntaxcomplete#Complete 
-"au FileType cs set foldmethod=marker 
-"au FileType cs set foldmarker={,} 
-"au FileType cs set foldtext=substitute(getline(v:foldstart),'{.*','{...}',) 
-"au FileType cs set foldlevelstart=2 
-" Quickfix mode: command line msbuild error format 
-"au FileType cs set errorformat=\ %#%f(%l\\\,%c):\ error\ CS%n:\ %m
-":set errorformat=\ %#%f(%l\\\,%c):\ %m
-":set makeprg=msbuild\ /nologo\ /property:GenerateFullPaths=true
-
-"Python 
-au FileType python set omnifunc=pythoncomplete#Complete 
+"Python
+au FileType python set omnifunc=pythoncomplete#Complete
 let g:SuperTabDefaultCompletionType="context"
 set completeopt=menuone,longest,preview
 
@@ -228,49 +239,28 @@ set completeopt=menuone,longest,preview
 nmap <silent><Leader>tf <Esc>:Pytest file<CR>
 nmap <silent><Leader>tc <Esc>:Pytest class<CR>
 nmap <silent><Leader>tm <Esc>:Pytest method<CR>
+
 " cycle through test errors
 nmap <silent><Leader>tn <Esc>:Pytest next<CR>
 nmap <silent><Leader>tp <Esc>:Pytest previous<CR>
 nmap <silent><Leader>te <Esc>:Pytest error<CR>
 
 "nose integration
-map <leader>dt :set makeprg=python\ manage.py\ test\|:call MakeGreen()<CR>
+"map <leader>dt :set makeprg=python\ manage.py\ test\|:call MakeGreen()<CR>
 
 "behave integration
-map <leader>bb :set makeprg=behave\ %\|:call MakeGreen()<CR>
+"map <leader>bb :set makeprg=behave\ %\|:call MakeGreen()<CR>
 
 "end python changes
 
 "nerd-tree
-nmap <silent> <C-n> :NERDTreeToggle<CR>
-autocmd vimenter * if !argc() | NERDTree | endif
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
-
-" Check if NERDTree is open or active
-function! s:isNERDTreeOpen()        
-  return exists("t:NERDTreeBufName") && (bufwinnr(t:NERDTreeBufName) != -1)
-endfunction
- 
-" Call NERDTreeFind iff NERDTree is active, current window contains a modifiable
-" file, and we're not in vimdiff
-function! s:syncTree()
-    if &modifiable && s:isNERDTreeOpen() && strlen(expand('%')) > 0 && !&diff
-        NERDTreeFind
-        wincmd p
-    endif
-endfunction
-
-" Highlight currently open buffer in NERDTree
-autocmd bufenter * call s:syncTree()
-
+nmap <leader>n :NERDTreeToggle<CR>
 
 "vim-obsess settings
 set ssop-=options    " do not store global and local values in a session
 set ssop-=folds      " do not store folds
 
-" Tagbar key bindings."
-nmap <leader>l <ESC>:TagbarToggle<cr>
-imap <leader>l <ESC>:TagbarToggle<cr>i
+nnoremap <leader>x :
 
 " Mini Buffer some settings."
 let g:miniBufExplMapWindowNavVim = 1
@@ -279,18 +269,13 @@ let g:miniBufExplMapCTabSwitchBufs = 1
 let g:miniBufExplModSelTarget = 1
 
 "expand %% to curent full path
-cabbr <expr> %% expand('%:p:h')   
+cabbr <expr> %% expand('%:p:h')
 set path==**         " gf rulez
-
-"JAVA settings
-"set efm=\ %#[javac]\ %#%f:%l:%c:%*\\d:%*\\d:\ %t%[%^:]%#:%m,\%A\ %#[javac]\ %f:%l:\ %m,%-Z\ %#[javac]\ %p^,%-C%.%#
-"set makeprg=ant\ debug\ install\ &&\ adb\ shell\ 'am\ start\ -n\ com.kno.textbooks/.splash.SplashActivity'
-"set makeprg=ant\ debug-compile
 
 " =========== Gvim Settings =============
 " Removing scrollbars
 if has("gui_running")
-    colors railscasts-alt
+    colors onedark
     set guitablabel=%-0.12t%M
     set guioptions-=T
     set guioptions-=r
@@ -300,8 +285,10 @@ if has("gui_running")
     set listchars=tab:▸\ ,eol:¬         " Invisibles using the Textmate style
 else
     set t_Co=256
-    colorscheme railscasts-alt
+    colorscheme onedark
 endif
+
+let g:airline_theme='onedark'
 
 " Source the vimrc file after saving it
 autocmd bufwritepost .vimrc source ~/.vimrc
@@ -309,7 +296,8 @@ autocmd bufwritepost .vimrc source ~/.vimrc
 set noeb vb t_vb=
 au GUIEnter * set vb t_vb=
 " ========== END Gvim Settings ==========
+"
 "Getting tired of swap files
-"set nobackup
-"set nowritebackup
-"set noswapfile
+set nobackup
+set nowritebackup
+set noswapfile
