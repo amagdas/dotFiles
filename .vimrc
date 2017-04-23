@@ -9,6 +9,9 @@ call vundle#begin()
 Plugin 'gmarik/Vundle.vim'
 Plugin 'bling/vim-airline'
 
+" Async syntax checking
+Plugin 'w0rp/ale'
+
 " Elixir
 Plugin 'elixir-lang/vim-elixir'
 Plugin 'BjRo/vim-extest'
@@ -16,6 +19,7 @@ Plugin 'mattreduce/vim-mix'
 Plugin 'mmorearty/elixir-ctags'
 " End for elixir plugins
 "
+Plugin 'elmcast/elm-vim'
 " Python
 Plugin 'jmcantrell/vim-virtualenv'
 Plugin 'klen/python-mode'
@@ -23,7 +27,6 @@ Plugin 'klen/python-mode'
 Plugin 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plugin 'junegunn/fzf.vim'
 Plugin 'ervandew/supertab'
-Plugin 'fholgado/minibufexpl.vim'
 Plugin 'godlygeek/csapprox'
 Plugin 'gregsexton/gitv'
 Plugin 'jiangmiao/auto-pairs'
@@ -35,8 +38,6 @@ Plugin 'reinh/vim-makegreen'
 Plugin 'rking/ag.vim'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'scrooloose/nerdtree'
-Plugin 'scrooloose/syntastic'
-Plugin 'mtscout6/syntastic-local-eslint.vim'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-git'
 Plugin 'tpope/vim-jdaddy'
@@ -53,6 +54,7 @@ Plugin 'mtscout6/vim-cjsx'
 Plugin 'digitaltoad/vim-jade'
 
 Plugin 'joshdick/onedark.vim'
+Plugin 'w0ng/vim-hybrid'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -103,14 +105,11 @@ set smartcase
 
 " Make Vim to handle long lines nicely.
 set wrap
-set textwidth=119
+set textwidth=180
 set formatoptions=qrn1
 
 " Dictionary path, from which the words are being looked up.
 set dictionary=/usr/share/dict/cracklib-small
-
-let g:syntastic_javascript_checkers = ['eslint']
-let g:syntastic_javascript_eslint_exe = 'node_modules/eslint/bin/eslint.js'
 
 " Get Rid of stupid Goddamned help keys
 inoremap <F1> <ESC>
@@ -130,17 +129,29 @@ nnoremap <right> <nop>
 nnoremap j gj
 nnoremap k gk
 
-" FZF
-nnoremap <leader>t :FZF<CR>
+nnoremap <leader>c "+y
+nnoremap <leader>p "+p
+vnoremap <leader>c "+y
+vnoremap <leader>p "+p
 
-" Default fzf layout
-" - down / up / left / right
+" FZF
 let g:fzf_layout = { 'down': '~50%' }
+nnoremap <leader>t :FZF<CR>
+nnoremap <leader>b :Buffers<CR>
+
+nnoremap <leader>html :-1read $HOME/.vim/.skeleton.html<CR>3jwf>a
+
+" De-fuckify syntax hilighting
+nnoremap <F3> :syn sync fromstart<CR>
+
+" Editing vimrc
+nnoremap <leader>v :source $MYVIMRC<CR>
+nnoremap <leader>e :edit $MYVIMRC<CR>
 
 
 "Buffer stuff -------------------------{{{
 "Switch between buffers using ,,
-nnoremap <leader>,  :bprev<CR>
+nnoremap <leader>,  :b#<CR>
 
 "New buffer with tn
 nnoremap <leader>new  :new<Space>
@@ -148,6 +159,12 @@ nnoremap <leader>new  :new<Space>
 "Close a tab with td
 nnoremap <leader>bd  :bdelete<CR>
 "}}}
+
+nmap <leader>ag <Esc>:Ack!
+
+"nerd-tree
+nnoremap <leader>nn :NERDTreeToggle<CR>
+nnoremap <leader>x :
 
 "Save quicker with <leader>w - saves all buffers
 nnoremap <leader>w :wa<CR>
@@ -168,7 +185,7 @@ map <c-j> <c-w>j
 map <c-k> <c-w>k
 map <c-k> <c-w>h
 map <c-l> <c-w>l
-set ls=2 " always show status line
+"set ls=2 " always show status line
 
 "Set font correctly in linux/mac/win
 if has("gui_running")
@@ -188,32 +205,25 @@ endif
 
 filetype plugin on
 set pastetoggle=<F5>
-nmap <leader>a <Esc>:Ack!
 
-" syntastic
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_aggregate_errors = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
+" ELM
+let g:elm_format_autosave = 1
+let g:elm_setup_keybindings = 0
+nnoremap <leader>. :ElmShowDocs<CR>
+nnoremap <leader>bb <Esc>:ElmMake<CR>
 
-"Status line
-set statusline=%t[%{strlen(&fenc)?&fenc:'none'},%{&ff}]%h%m%r%y%=%c,%l/%L\ %P " fancy status line
-"display a warning if fileformat isnt unix
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%{&ff!='unix'?'['.&ff.']':''}
-set statusline+=%*
+" ALE
+let g:elm_setup_keybindings = 0
+let g:ale_javascript_eslint_executable = 'node_modules/eslint/bin/eslint.js'
 
-"display a warning if file encoding isnt utf-8
-set statusline+=%#warningmsg#
-set statusline+=%{(&fenc!='utf-8'&&&fenc!='')?'['.&fenc.']':''}
-set statusline+=%*
-set statusline+=%{fugitive#statusline()}
-set statusline+=%h      "help file flag
-set statusline+=%y      "filetype
-set statusline+=%r      "read only flag
-set statusline+=%m      "modified flag
+let g:ale_linters = {
+\   'javascript': ['eslint'],
+\   'elm': ['make'],
+\   'elixir': ['credo'],
+\}
+let g:airline#extensions#ale#error_symbol = ' ⨉ '
+let g:airline#extensions#ale#warning_symbol = ' ⚠ '
+let g:airline_theme='onedark'
 
 set background=dark
 syntax enable
@@ -235,15 +245,15 @@ au FileType python set omnifunc=pythoncomplete#Complete
 let g:SuperTabDefaultCompletionType="context"
 set completeopt=menuone,longest,preview
 
-" Execute the tests
-nmap <silent><Leader>tf <Esc>:Pytest file<CR>
-nmap <silent><Leader>tc <Esc>:Pytest class<CR>
-nmap <silent><Leader>tm <Esc>:Pytest method<CR>
+"" Execute the tests
+"nmap <silent><Leader>tf <Esc>:Pytest file<CR>
+"nmap <silent><Leader>tc <Esc>:Pytest class<CR>
+"nmap <silent><Leader>tm <Esc>:Pytest method<CR>
 
-" cycle through test errors
-nmap <silent><Leader>tn <Esc>:Pytest next<CR>
-nmap <silent><Leader>tp <Esc>:Pytest previous<CR>
-nmap <silent><Leader>te <Esc>:Pytest error<CR>
+"" cycle through test errors
+"nmap <silent><Leader>tn <Esc>:Pytest next<CR>
+"nmap <silent><Leader>tp <Esc>:Pytest previous<CR>
+"nmap <silent><Leader>te <Esc>:Pytest error<CR>
 
 "nose integration
 "map <leader>dt :set makeprg=python\ manage.py\ test\|:call MakeGreen()<CR>
@@ -253,20 +263,9 @@ nmap <silent><Leader>te <Esc>:Pytest error<CR>
 
 "end python changes
 
-"nerd-tree
-nmap <leader>n :NERDTreeToggle<CR>
-
 "vim-obsess settings
 set ssop-=options    " do not store global and local values in a session
 set ssop-=folds      " do not store folds
-
-nnoremap <leader>x :
-
-" Mini Buffer some settings."
-let g:miniBufExplMapWindowNavVim = 1
-let g:miniBufExplMapWindowNavArrows = 1
-let g:miniBufExplMapCTabSwitchBufs = 1
-let g:miniBufExplModSelTarget = 1
 
 "expand %% to curent full path
 cabbr <expr> %% expand('%:p:h')
@@ -288,10 +287,11 @@ else
     colorscheme onedark
 endif
 
-let g:airline_theme='onedark'
 
 " Source the vimrc file after saving it
-autocmd bufwritepost .vimrc source ~/.vimrc
+"autocmd bufwritepost .vimrc source ~/.vimrc
+
+
 " disable visual bell
 set noeb vb t_vb=
 au GUIEnter * set vb t_vb=
