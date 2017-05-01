@@ -26,6 +26,7 @@ Plugin 'klen/python-mode'
 
 Plugin 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plugin 'junegunn/fzf.vim'
+
 Plugin 'ervandew/supertab'
 Plugin 'godlygeek/csapprox'
 Plugin 'gregsexton/gitv'
@@ -66,9 +67,9 @@ let g:ackprg = 'ag --nogroup --nocolor --column'
 set ruler
 set ttyfast
 set modelines=0
-set tabstop=4
-set shiftwidth=4
-set softtabstop=4
+set tabstop=2
+set shiftwidth=2
+set softtabstop=2
 set expandtab
 set encoding=utf-8
 set scrolloff=3
@@ -111,10 +112,15 @@ set formatoptions=qrn1
 " Dictionary path, from which the words are being looked up.
 set dictionary=/usr/share/dict/cracklib-small
 
+" MAPPINGS
+"
 " Get Rid of stupid Goddamned help keys
 inoremap <F1> <ESC>
 nnoremap <F1> <ESC>
 vnoremap <F1> <ESC>
+
+" Clear last search highlighting
+nnoremap <Space> :noh<cr>
 
 " Naviagations using keys up/down/left/right
 " Disabling default keys to learn the hjkl
@@ -134,10 +140,16 @@ nnoremap <leader>p "+p
 vnoremap <leader>c "+y
 vnoremap <leader>p "+p
 
+" ----------------------------------------------------------------------------
+" vim-fugitive
+" ----------------------------------------------------------------------------
+nmap     <leader>g :Gstatus<CR>gg<c-n>
+nnoremap <leader>d :Gdiff<CR>
+
 " FZF
 let g:fzf_layout = { 'down': '~50%' }
-nnoremap <leader>t :FZF<CR>
-nnoremap <leader>b :Buffers<CR>
+nnoremap <silent> <Leader>t :FZF<CR>
+nnoremap <silent> <Leader>b :Buffers<CR>
 
 nnoremap <leader>html :-1read $HOME/.vim/.skeleton.html<CR>3jwf>a
 
@@ -145,18 +157,18 @@ nnoremap <leader>html :-1read $HOME/.vim/.skeleton.html<CR>3jwf>a
 nnoremap <F3> :syn sync fromstart<CR>
 
 " Editing vimrc
-nnoremap <leader>v :source $MYVIMRC<CR>
-nnoremap <leader>e :edit $MYVIMRC<CR>
+nmap <leader>v :source $MYVIMRC<CR>
+nmap <leader>e :edit $MYVIMRC<CR>
 
 
 "Buffer stuff -------------------------{{{
 "Switch between buffers using ,,
 nnoremap <leader>,  :b#<CR>
 
-"New buffer with tn
-nnoremap <leader>new  :new<Space>
+"New buffer with new
+nnoremap <leader>n  :new<Space>
 
-"Close a tab with td
+"Close a tab with bd
 nnoremap <leader>bd  :bdelete<CR>
 "}}}
 
@@ -164,18 +176,19 @@ nmap <leader>ag <Esc>:Ack!
 
 "nerd-tree
 nnoremap <leader>nn :NERDTreeToggle<CR>
+nnoremap <leader>nf :NERDTreeFind<CR>
+
+"until I forget about emacs evil mode
 nnoremap <leader>x :
 
 "Save quicker with <leader>w - saves all buffers
-nnoremap <leader>w :wa<CR>
+nnoremap <leader>s :wa<CR>
 "Switch between windows in the same tab -------------------------{{{
 nnoremap <silent> <C-h> <C-w>h
 nnoremap <silent> <C-j> <C-w>j
 nnoremap <silent> <C-l> <C-w>l
 nnoremap <silent> <C-k> <C-w>k
 "}}}
-"make ctrl backspace delete the entire word when in insert mode
-inoremap <C-BS> <C-W>
 
 "make 'kj' do the equivalent of escape
 :inoremap kj <Esc>
@@ -209,8 +222,8 @@ set pastetoggle=<F5>
 " ELM
 let g:elm_format_autosave = 1
 let g:elm_setup_keybindings = 0
-nnoremap <leader>. :ElmShowDocs<CR>
-nnoremap <leader>bb <Esc>:ElmMake<CR>
+au FileType elm nnoremap <leader>. :ElmShowDocs<CR>
+au FileType elm nnoremap <leader>bb :ElmMake<CR>
 
 " ALE
 let g:elm_setup_keybindings = 0
@@ -246,14 +259,14 @@ let g:SuperTabDefaultCompletionType="context"
 set completeopt=menuone,longest,preview
 
 "" Execute the tests
-"nmap <silent><Leader>tf <Esc>:Pytest file<CR>
-"nmap <silent><Leader>tc <Esc>:Pytest class<CR>
-"nmap <silent><Leader>tm <Esc>:Pytest method<CR>
+"nmap <silent><leader>tf <Esc>:Pytest file<CR>
+"nmap <silent><leader>tc <Esc>:Pytest class<CR>
+"nmap <silent><leader>tm <Esc>:Pytest method<CR>
 
 "" cycle through test errors
-"nmap <silent><Leader>tn <Esc>:Pytest next<CR>
-"nmap <silent><Leader>tp <Esc>:Pytest previous<CR>
-"nmap <silent><Leader>te <Esc>:Pytest error<CR>
+"nmap <silent><leader>tn <Esc>:Pytest next<CR>
+"nmap <silent><leader>tp <Esc>:Pytest previous<CR>
+"nmap <silent><leader>te <Esc>:Pytest error<CR>
 
 "nose integration
 "map <leader>dt :set makeprg=python\ manage.py\ test\|:call MakeGreen()<CR>
@@ -301,3 +314,18 @@ au GUIEnter * set vb t_vb=
 set nobackup
 set nowritebackup
 set noswapfile
+
+function! StripTrailingWhitespaces()
+    let l = line(".")
+    let c = col(".")
+    %s/\s\+$//e
+    call cursor(l, c)
+endfun
+
+highlight ExtraWhitespace ctermbg=red guibg=red
+au ColorScheme * highlight ExtraWhitespace guibg=red
+au BufEnter * match ExtraWhitespace /\s\+$/
+au InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
+au InsertLeave * match ExtraWhiteSpace /\s\+$/
+
+autocmd BufWritePre * :call StripTrailingWhitespaces()
