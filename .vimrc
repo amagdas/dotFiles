@@ -148,13 +148,14 @@ nnoremap <leader>d :Gdiff<CR>
 
 " FZF
 let g:fzf_layout = { 'down': '~50%' }
-nnoremap <silent> <Leader>t :FZF<CR>
-nnoremap <silent> <Leader>b :Buffers<CR>
+nnoremap <leader>t :FZF<CR>
+nnoremap <leader><Space> :Buffers<CR>
+vnoremap <leader><Space> :Buffers<CR>
 
-nnoremap <leader>html :-1read $HOME/.vim/.skeleton.html<CR>3jwf>a
+"nnoremap <leader>html :-1read $HOME/.vim/snippets/.skeleton.html<CR>3jwf>a
 
 " De-fuckify syntax hilighting
-nnoremap <F3> :syn sync fromstart<CR>
+"nnoremap <F3> :syn sync fromstart<CR>
 
 " Editing vimrc
 nmap <leader>v :source $MYVIMRC<CR>
@@ -169,7 +170,7 @@ nnoremap <leader>,  :b#<CR>
 nnoremap <leader>n  :new<Space>
 
 "Close a tab with bd
-nnoremap <leader>bd  :bdelete<CR>
+"nnoremap <leader>bd  :bdelete<CR>
 "}}}
 
 nmap <leader>ag <Esc>:Ack!
@@ -178,8 +179,6 @@ nmap <leader>ag <Esc>:Ack!
 nnoremap <leader>nn :NERDTreeToggle<CR>
 nnoremap <leader>nf :NERDTreeFind<CR>
 
-"until I forget about emacs evil mode
-nnoremap <leader>x :
 
 "Save quicker with <leader>w - saves all buffers
 nnoremap <leader>s :wa<CR>
@@ -204,7 +203,7 @@ map <c-l> <c-w>l
 if has("gui_running")
     set guifont=Source\ Code\ Pro\ 11
     if has("gui_gtk2")
-        set guifont=Source\ Code\ Pro\ 10
+        set guifont=Source\ Code\ Pro\ 11
     elseif has("gui_macvim")
         set guifont=Source\ Code\ Pro:h13
     elseif has("gui_win32")
@@ -223,7 +222,7 @@ set pastetoggle=<F5>
 let g:elm_format_autosave = 1
 let g:elm_setup_keybindings = 0
 au FileType elm nnoremap <leader>. :ElmShowDocs<CR>
-au FileType elm nnoremap <leader>bb :ElmMake<CR>
+au FileType elm nnoremap <leader>.. :ElmMake<CR>
 
 " ALE
 let g:elm_setup_keybindings = 0
