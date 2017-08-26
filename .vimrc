@@ -211,9 +211,8 @@ if has("gui_running")
     endif
 endif
 
-if (has("termguicolors"))
-    set termguicolors
-endif
+set t_ut=
+set termguicolors
 
 filetype plugin on
 set pastetoggle=<F5>
