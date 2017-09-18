@@ -155,7 +155,7 @@ vnoremap <leader><Space> :Buffers<CR>
 "nnoremap <leader>html :-1read $HOME/.vim/snippets/.skeleton.html<CR>3jwf>a
 
 " De-fuckify syntax hilighting
-"nnoremap <F3> :syn sync fromstart<CR>
+nnoremap <F3> :syn sync fromstart<CR>
 
 " Editing vimrc
 nmap <leader>v :source $MYVIMRC<CR>
@@ -227,6 +227,10 @@ au FileType elm nnoremap <leader>.. :ElmMake<CR>
 let g:elm_setup_keybindings = 0
 let g:ale_javascript_eslint_executable = 'node_modules/eslint/bin/eslint.js'
 
+let g:ale_fix_on_save = 1
+let g:ale_javascript_prettier_options = '--write'
+let g:ale_fixers = {}
+let g:ale_fixers['javascript'] = ['prettier']
 let g:ale_linters = {
 \   'javascript': ['eslint'],
 \   'elm': ['make'],
