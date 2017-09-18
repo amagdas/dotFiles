@@ -228,7 +228,8 @@ let g:elm_setup_keybindings = 0
 let g:ale_javascript_eslint_executable = 'node_modules/eslint/bin/eslint.js'
 
 let g:ale_fix_on_save = 1
-let g:ale_javascript_prettier_options = '--write'
+let g:ale_javascript_prettier_options = '--print-width 160 --single-quote --trailing-comma all --bracket-spacing --jsx-bracket-same-line'
+
 let g:ale_fixers = {}
 let g:ale_fixers['javascript'] = ['prettier']
 let g:ale_linters = {
