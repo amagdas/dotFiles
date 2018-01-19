@@ -214,12 +214,12 @@ bar {
   status_command i3blocks
     i3bar_command i3bar -t
     position top
-    font pango:Hasklig, FontAwesome 12
+    font pango:Hasklig, FontAwesome 13
     strip_workspace_numbers yes
     separator_symbol "■"
     bindsym button4 nop
     bindsym button5 nop
-    tray_padding 0
+    tray_padding 1
     height $height
 }
 
@@ -269,8 +269,10 @@ mode "$mode_gaps_outer" {
 }
 
 
-assign [class="(?i)vivaldi"]                  $ws2
+assign [class="(?i)firefox"]                  $ws2
 assign [class="(?i)slack"]                  $ws3
+assign [class="(?i)vlc"]                  $ws4
+assign [class="(?i)dbeaver"]                  $ws5
 
 exec --no-startup-id nitrogen --restore; sleep 1;
 exec --no-startup-id volumeicon
@@ -278,3 +280,4 @@ exec --no-startup-id compton -b --config ~/.config/compton.conf
 exec --no-startup-id redshift-gtk &
 exec --no-startup-id nm-applet &
 exec --no-startup-id tasque &
+exec xautolock -time 10 &

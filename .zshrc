@@ -18,7 +18,7 @@ ZSH_THEME="agnoster"
 # HYPHEN_INSENSITIVE="true"
 
 # Uncomment the following line to disable bi-weekly auto-update checks.
-# DISABLE_AUTO_UPDATE="true"
+DISABLE_AUTO_UPDATE="true"
 
 # Uncomment the following line to change how often to auto-update (in days).
 # export UPDATE_ZSH_DAYS=13
@@ -52,13 +52,13 @@ ZSH_THEME="agnoster"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git docker elixir nvm mix vi-mode)
+plugins=(git nvm vi-mode)
 
 # User configuration
 
-export PATH="/usr/bin:/bin:/usr/sbin:/sbin:$PATH"
+export PATH="/opt/android-sdk/tools:/usr/bin:/bin:/usr/sbin:/sbin:$PATH"
 # export MANPATH="/usr/local/man:$MANPATH"
-# export PATH="/home/crafter/.cask/bin:$PATH"
+export PATH="/home/crafter/SailfishOS/bin:$PATH"
 
 source $ZSH/oh-my-zsh.sh
 
@@ -87,6 +87,9 @@ fi
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias e="vim"
+alias v="vim"
+alias vi="vim -u NONE"
+alias open="xdg-open"
 export TERM="xterm-256color"
 export DEFAULT_USER=crafter
 export SELENIUM_BROWSER=CHROME_LOCAL
@@ -97,6 +100,7 @@ alias lso="stat -c '%A %a %n' *"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 source /usr/share/nvm/init-nvm.sh
+source $HOME/.cargo/env
 
-export PATH="$HOME/.yarn/bin:$PATH"
 export XDG_CONFIG_HOME="$HOME"
+export ANDROID_HOME=/opt/android-sdk

@@ -3,6 +3,7 @@ set nocompatible
 filetype off
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
+
 call vundle#begin()
 
 " let Vundle manage Vundle, required
@@ -56,6 +57,8 @@ Plugin 'digitaltoad/vim-jade'
 
 Plugin 'joshdick/onedark.vim'
 Plugin 'w0ng/vim-hybrid'
+Plugin 'peterhoeg/vim-qml'
+Plugin 'hsanson/vim-android'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -155,7 +158,8 @@ vnoremap <leader><Space> :Buffers<CR>
 "nnoremap <leader>html :-1read $HOME/.vim/snippets/.skeleton.html<CR>3jwf>a
 
 " De-fuckify syntax hilighting
-nnoremap <F3> :syn sync fromstart<CR>
+"nnoremap <F3> :syn sync fromstart<CR>
+set pastetoggle=<leader>x
 
 " Editing vimrc
 nmap <leader>v :source $MYVIMRC<CR>
@@ -199,23 +203,7 @@ map <c-k> <c-w>h
 map <c-l> <c-w>l
 "set ls=2 " always show status line
 
-"Set font correctly in linux/mac/win
-if has("gui_running")
-    set guifont=Fira\ Code\ Retina\ 13
-    if has("gui_gtk2")
-        set guifont=Fira\ Code\ Retina\ 13
-    elseif has("gui_macvim")
-        set guifont=Source\ Code\ Pro:h13
-    elseif has("gui_win32")
-        set guifont=Source\ Code\ Pro:h13
-    endif
-endif
-
-set t_ut=
-set termguicolors
-
 filetype plugin on
-set pastetoggle=<F5>
 
 " ELM
 let g:elm_format_autosave = 1
@@ -299,8 +287,19 @@ if has("gui_running")
     set guioptions+=a
     set guioptions-=m
     set listchars=tab:▸\ ,eol:¬         " Invisibles using the Textmate style
+
+    set guifont=Fira\ Code\ Retina\ 13
+    if has("gui_gtk2")
+        set guifont=Fira\ Code\ Retina\ 13
+    elseif has("gui_macvim")
+        set guifont=Source\ Code\ Pro:h13
+    elseif has("gui_win32")
+        set guifont=Source\ Code\ Pro:h13
+    endif
 else
     set t_Co=256
+    set t_ut=
+    set termguicolors
     colorscheme onedark
 endif
 
