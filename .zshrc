@@ -100,7 +100,8 @@ alias lso="stat -c '%A %a %n' *"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 source /usr/share/nvm/init-nvm.sh
-source $HOME/.cargo/env
+source $HOME/.cargo/env # rust package manager
 
 export XDG_CONFIG_HOME="$HOME"
 export ANDROID_HOME=/opt/android-sdk
+export ERL_AFLAGS="-kernel shell_history enabled" # iex history
