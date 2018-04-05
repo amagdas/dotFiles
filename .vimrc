@@ -17,13 +17,11 @@ Plugin 'w0rp/ale'
 Plugin 'elixir-lang/vim-elixir'
 Plugin 'BjRo/vim-extest'
 Plugin 'mattreduce/vim-mix'
+Plugin 'mhinz/vim-mix-format'
 Plugin 'mmorearty/elixir-ctags'
 " End for elixir plugins
 "
 Plugin 'elmcast/elm-vim'
-" Python
-Plugin 'jmcantrell/vim-virtualenv'
-Plugin 'klen/python-mode'
 
 Plugin 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plugin 'junegunn/fzf.vim'
@@ -35,6 +33,7 @@ Plugin 'jiangmiao/auto-pairs'
 Plugin 'majutsushi/tagbar'
 Plugin 'mileszs/ack.vim'
 Plugin 'pangloss/vim-javascript'
+Plugin 'mxw/vim-jsx'
 Plugin 'plasticboy/vim-markdown'
 Plugin 'reinh/vim-makegreen'
 Plugin 'rking/ag.vim'
@@ -52,18 +51,22 @@ Plugin 'esneider/YUNOcommit.vim'
 Plugin 'vim-scripts/camelcasemotion'
 
 " JSX
-Plugin 'mtscout6/vim-cjsx'
+"Plugin 'mtscout6/vim-cjsx'
 Plugin 'digitaltoad/vim-jade'
 
+" Themes
 Plugin 'joshdick/onedark.vim'
+"Plugin 'challenger-deep-theme/vim', { 'name': 'challenger_deep'  }
+"Plugin 'crusoexia/vim-monokai'
+
 Plugin 'w0ng/vim-hybrid'
-Plugin 'peterhoeg/vim-qml'
-Plugin 'hsanson/vim-android'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
 
 let mapleader = ","
+
+let g:jsx_ext_required = 0
 
 let g:ackprg = 'ag --nogroup --nocolor --column'
 
@@ -211,6 +214,9 @@ let g:elm_setup_keybindings = 0
 au FileType elm nnoremap <leader>. :ElmShowDocs<CR>
 au FileType elm nnoremap <leader>.. :ElmMake<CR>
 
+" Elixir
+"let g:mix_format_on_save = 1
+
 " ALE
 let g:elm_setup_keybindings = 0
 let g:ale_javascript_eslint_executable = 'node_modules/eslint/bin/eslint.js'
@@ -301,6 +307,8 @@ else
     set t_ut=
     set termguicolors
     colorscheme onedark
+    "colorscheme challenger_deep
+    "colorscheme monokai
 endif
 
 
