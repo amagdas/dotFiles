@@ -214,7 +214,7 @@ bar {
   status_command i3blocks
     i3bar_command i3bar -t
     position top
-    font pango:Hasklig, FontAwesome 13
+    font pango:Hasklig, FontAwesome 15
     strip_workspace_numbers yes
     separator_symbol "■"
     bindsym button4 nop
@@ -271,7 +271,6 @@ mode "$mode_gaps_outer" {
 
 assign [class="(?i)firefox"]                  $ws2
 assign [class="(?i)slack"]                  $ws3
-assign [class="(?i)vlc"]                  $ws4
 assign [class="(?i)dbeaver"]                  $ws5
 
 exec --no-startup-id nitrogen --restore; sleep 1;

@@ -226,6 +226,7 @@ let g:ale_javascript_prettier_options = '--print-width 160 --single-quote --trai
 
 let g:ale_fixers = {}
 let g:ale_fixers['javascript'] = ['prettier']
+let g:ale_fixers['elixir'] = ['mix_format']
 let g:ale_linters = {
 \   'javascript': ['eslint'],
 \   'elm': ['make'],
