@@ -257,24 +257,6 @@ au FileType python set omnifunc=pythoncomplete#Complete
 let g:SuperTabDefaultCompletionType="context"
 set completeopt=menuone,longest,preview
 
-"" Execute the tests
-"nmap <silent><leader>tf <Esc>:Pytest file<CR>
-"nmap <silent><leader>tc <Esc>:Pytest class<CR>
-"nmap <silent><leader>tm <Esc>:Pytest method<CR>
-
-"" cycle through test errors
-"nmap <silent><leader>tn <Esc>:Pytest next<CR>
-"nmap <silent><leader>tp <Esc>:Pytest previous<CR>
-"nmap <silent><leader>te <Esc>:Pytest error<CR>
-
-"nose integration
-"map <leader>dt :set makeprg=python\ manage.py\ test\|:call MakeGreen()<CR>
-
-"behave integration
-"map <leader>bb :set makeprg=behave\ %\|:call MakeGreen()<CR>
-
-"end python changes
-
 "vim-obsess settings
 set ssop-=options    " do not store global and local values in a session
 set ssop-=folds      " do not store folds

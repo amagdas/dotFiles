@@ -35,15 +35,15 @@ set $ws7  "7:  "
 set $ws8  "8:  "
 set $ws9  "9:  "
 
-set $default_gaps_inner 0
-set $default_gaps_outer 0
+set $default_gaps_inner 1
+set $default_gaps_outer 3
 gaps inner $default_gaps_inner
 gaps outer $default_gaps_outer
 
-workspace $ws1 gaps inner 0
-workspace $ws1 gaps outer 0
-workspace $ws9 gaps inner 0
-workspace $ws9 gaps outer 0
+workspace $ws1 gaps inner 2
+workspace $ws1 gaps outer 2
+workspace $ws9 gaps inner 2
+workspace $ws9 gaps outer 2
 
 workspace_auto_back_and_forth yes
 force_display_urgency_hint 0 ms
@@ -214,7 +214,7 @@ bar {
   status_command i3blocks
     i3bar_command i3bar -t
     position top
-    font pango:Hasklig, FontAwesome 15
+    font pango:Hasklig, FontAwesome 14
     strip_workspace_numbers yes
     separator_symbol "■"
     bindsym button4 nop
@@ -241,7 +241,7 @@ mode "$mode_gaps" {
 mode "$mode_gaps_inner" {
     bindsym plus  gaps inner current plus 5
     bindsym minus gaps inner current minus 5
-    bindsym 0     mode "default", gaps inner current set 0
+    bindsym 0     mode "default", gaps inner current set 3
     bindsym d     mode "default", gaps inner current set $default_gaps_inner
 
     bindsym Shift+plus  gaps inner all plus 5
@@ -256,7 +256,7 @@ mode "$mode_gaps_inner" {
 mode "$mode_gaps_outer" {
     bindsym plus  gaps outer current plus 5
     bindsym minus gaps outer current minus 5
-    bindsym 0     mode "default", gaps outer current set 0
+    bindsym 0     mode "default", gaps outer current set 3
     bindsym d     mode "default", gaps outer current set $default_gaps_outer
 
     bindsym Shift+plus  gaps outer all plus 5
@@ -275,8 +275,8 @@ assign [class="(?i)dbeaver"]                  $ws5
 
 exec --no-startup-id nitrogen --restore; sleep 1;
 exec --no-startup-id volumeicon
-exec --no-startup-id compton -b --config ~/.config/compton.conf
+#exec --no-startup-id compton -b --config ~/.config/compton.conf
 exec --no-startup-id redshift-gtk &
 exec --no-startup-id nm-applet &
-exec --no-startup-id tasque &
+#exec --no-startup-id tasque &
 exec --no-startup-id blueberry-tray &
