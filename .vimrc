@@ -58,7 +58,7 @@ Plugin 'mxw/vim-jsx'
 " Themes
 Plugin 'joshdick/onedark.vim'
 "Plugin 'challenger-deep-theme/vim', { 'name': 'challenger_deep'  }
-"Plugin 'crusoexia/vim-monokai'
+Plugin 'crusoexia/vim-monokai'
 "Plugin 'w0ng/vim-hybrid'
 
 call vundle#end()            " required
