@@ -15,27 +15,26 @@ Plugin 'w0rp/ale'
 
 " Elixir
 Plugin 'elixir-lang/vim-elixir'
+Plugin 'slashmili/alchemist.vim'
 Plugin 'BjRo/vim-extest'
-Plugin 'mattreduce/vim-mix'
 Plugin 'mhinz/vim-mix-format'
 Plugin 'mmorearty/elixir-ctags'
 " End for elixir plugins
 "
+Plugin 'Shougo/deoplete.nvim'
+
 Plugin 'elmcast/elm-vim'
 
 Plugin 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plugin 'junegunn/fzf.vim'
 
 Plugin 'ervandew/supertab'
-Plugin 'godlygeek/csapprox'
+"Plugin 'godlygeek/csapprox'
 Plugin 'gregsexton/gitv'
 Plugin 'jiangmiao/auto-pairs'
-Plugin 'majutsushi/tagbar'
 Plugin 'mileszs/ack.vim'
-Plugin 'pangloss/vim-javascript'
-Plugin 'mxw/vim-jsx'
+
 Plugin 'plasticboy/vim-markdown'
-Plugin 'reinh/vim-makegreen'
 Plugin 'rking/ag.vim'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'scrooloose/nerdtree'
@@ -52,14 +51,15 @@ Plugin 'vim-scripts/camelcasemotion'
 
 " JSX
 "Plugin 'mtscout6/vim-cjsx'
-Plugin 'digitaltoad/vim-jade'
+"Plugin 'digitaltoad/vim-jade'
+Plugin 'pangloss/vim-javascript'
+Plugin 'mxw/vim-jsx'
 
 " Themes
 Plugin 'joshdick/onedark.vim'
 "Plugin 'challenger-deep-theme/vim', { 'name': 'challenger_deep'  }
 "Plugin 'crusoexia/vim-monokai'
-
-Plugin 'w0ng/vim-hybrid'
+"Plugin 'w0ng/vim-hybrid'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -196,10 +196,6 @@ nnoremap <silent> <C-l> <C-w>l
 nnoremap <silent> <C-k> <C-w>k
 "}}}
 
-"make 'kj' do the equivalent of escape
-:inoremap kj <Esc>
-:cnoremap kj <Esc>
-
 map <c-j> <c-w>j
 map <c-k> <c-w>k
 map <c-k> <c-w>h
@@ -215,18 +211,19 @@ au FileType elm nnoremap <leader>. :ElmShowDocs<CR>
 au FileType elm nnoremap <leader>.. :ElmMake<CR>
 
 " Elixir
-"let g:mix_format_on_save = 1
+let g:mix_format_on_save = 0
 
 " ALE
 let g:elm_setup_keybindings = 0
-let g:ale_javascript_eslint_executable = 'node_modules/eslint/bin/eslint.js'
-
 let g:ale_fix_on_save = 1
-let g:ale_javascript_prettier_options = '--print-width 160 --single-quote --trailing-comma all --bracket-spacing --jsx-bracket-same-line'
 
+let g:ale_javascript_eslint_executable = 'node_modules/eslint/bin/eslint.js'
+let g:ale_javascript_prettier_options = '--print-width 160 --single-quote --trailing-comma all --bracket-spacing --jsx-bracket-same-line'
 let g:ale_fixers = {}
 let g:ale_fixers['javascript'] = ['prettier']
 let g:ale_fixers['elixir'] = ['mix_format']
+"au FileType xml setlocal equalprg=xmllint\ --format\ --recover\ -\ 2>/dev/null
+
 let g:ale_linters = {
 \   'javascript': ['eslint'],
 \   'elm': ['make'],
@@ -249,13 +246,8 @@ set foldmethod=syntax
 set backspace=indent,eol,start
 
 "Html
-autocmd FileType html,xhtml set omnifunc=htmlcomplete#CompleteTags
-au FileType css set ofu=csscomplete#CompleteCSS
-
-"Python
-au FileType python set omnifunc=pythoncomplete#Complete
-let g:SuperTabDefaultCompletionType="context"
-set completeopt=menuone,longest,preview
+"autocmd FileType html,xhtml set omnifunc=htmlcomplete#CompleteTags
+"au FileType css set ofu=csscomplete#CompleteCSS
 
 "vim-obsess settings
 set ssop-=options    " do not store global and local values in a session
@@ -277,11 +269,12 @@ if has("gui_running")
     set guioptions-=m
     set listchars=tab:▸\ ,eol:¬         " Invisibles using the Textmate style
 
-    set guifont=Fira\ Code\ Retina\ 13
+    set guifont=Fira\ Code\ Retina\ 18
     if has("gui_gtk2")
         set guifont=Fira\ Code\ Retina\ 13
     elseif has("gui_macvim")
-        set guifont=Source\ Code\ Pro:h13
+        set macligatures
+        set guifont=Fira\ Code\ Retina:h18
     elseif has("gui_win32")
         set guifont=Source\ Code\ Pro:h13
     endif
@@ -308,6 +301,7 @@ au GUIEnter * set vb t_vb=
 set nobackup
 set nowritebackup
 set noswapfile
+set synmaxcol=300
 
 function! StripTrailingWhitespaces()
     let l = line(".")
