@@ -39,7 +39,7 @@
   ai = add --interactive
 
   co = checkout
-  br = branch
+  br = branch --sort=-committerdate
     #"!git branch -ra | grep -v done"
   bra = branch -ra
     #list commands

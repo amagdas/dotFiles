@@ -58,7 +58,7 @@ Plugin 'mxw/vim-jsx'
 " Themes
 Plugin 'joshdick/onedark.vim'
 "Plugin 'challenger-deep-theme/vim', { 'name': 'challenger_deep'  }
-Plugin 'crusoexia/vim-monokai'
+"Plugin 'crusoexia/vim-monokai'
 "Plugin 'w0ng/vim-hybrid'
 
 call vundle#end()            " required
@@ -98,8 +98,6 @@ set wildignore+=migrations "Django migrations"
 set wildignore+=*.pyc "Python Object codes"
 set wildignore+=*.orig "Merge resolution files"
 
-set lines=999
-set columns=999
 set number
 set incsearch
 set autoindent
