@@ -1,6 +1,6 @@
 [user]
   name = amagdas
-  email = magdasadrian@gmail.com
+  email = magdasadrian@protonmail.com
 
 [color]
   branch = auto
@@ -39,7 +39,7 @@
   ai = add --interactive
 
   co = checkout
-  br = branch --sort=-committerdate
+  br = !git branch --sort=-committerdate | nl | less
     #"!git branch -ra | grep -v done"
   bra = branch -ra
     #list commands
@@ -61,9 +61,8 @@
   dlc = diff --cached HEAD^
   dr  = "!f() { git diff "$1"^.."$1"; }; f"
   diffr  = "!f() { git diff "$1"^.."$1"; }; f"
-  branch = branch -ra
 
-    #reset commands
+  #reset commands
   r = reset
   r1 = reset HEAD^
   r2 = reset HEAD^^
@@ -101,6 +100,7 @@
     #unassume all the assumed files
   unassumeall = "!git assumed | xargs git update-index --no-assume-unchanged"
   assumeall = "!git st -s | awk {'print $2'} | xargs git assume"
+  nth = "!f() { git branch --sort=-committerdate | head -n $1 | tail -1  | xargs git checkout; }; f"
 
   lasttag = describe --tags --abbrev=0
   lt = describe --tags --abbrev=0
@@ -138,7 +138,7 @@
 [core]
   editor = "vim -u NONE"
 [credential]
-  helper = cache --timeout=86400
+	helper = cache --timeout 3600000
 [filter "media"]
   clean = git-media-clean %f
   smudge = git-media-smudge %f

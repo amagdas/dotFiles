@@ -8,22 +8,30 @@ Plugin 'tpope/vim-sensible'
 Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-eunuch'
+Plugin 'tpope/vim-endwise'
+Plugin 'tpope/vim-dadbod'
+Plugin 'justinmk/vim-dirvish'
 Plugin 'bling/vim-airline'
 Plugin 'w0rp/ale'
 
 Plugin 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plugin 'junegunn/fzf.vim'
+Plugin 'junegunn/vim-emoji'
 
 Plugin 'scrooloose/nerdcommenter'
-Plugin 'scrooloose/nerdtree'
+"Plugin 'scrooloose/nerdtree'
 
 Plugin 'ervandew/supertab'
 Plugin 'mileszs/ack.vim'
 Plugin 'rking/ag.vim'
 Plugin 'esneider/YUNOcommit.vim'
+Plugin 'Konfekt/FastFold'
 
 " Themes
 Plugin 'joshdick/onedark.vim'
+Plugin 'morhetz/gruvbox'
+"Plugin 'tomasr/molokai'
 
 " Elixir
 "Plugin 'elixir-lang/vim-elixir'
@@ -42,9 +50,15 @@ call vundle#end()            " required
 filetype plugin indent on    " required
 
 set t_Co=256
+set termencoding=utf-8
+set encoding=utf-8
+scriptencoding utf-8
+set term=xterm-256color
 set t_ut=
 set termguicolors
+
 colorscheme onedark
+"colorscheme gruvbox
 
 let mapleader = ","
 let g:ackprg = 'ag --nogroup --nocolor --column'
@@ -61,6 +75,8 @@ set scrolloff=3
 set showmode
 set showcmd
 set hidden
+set list
+set listchars=tab:␉·,trail:␠,nbsp:⎵
 set number
 
 set incsearch
@@ -100,10 +116,15 @@ nnoremap <right> <nop>
 nnoremap j gj
 nnoremap k gk
 
-nnoremap <leader>c "+y
-nnoremap <leader>p "+p
-vnoremap <leader>c "+y
-vnoremap <leader>p "+p
+nnoremap <leader>c :w !wl-copy<CR><CR>
+nnoremap <leader>p :r !wl-paste<CR><CR>
+vnoremap <leader>c :w !wl-copy<CR><CR>
+vnoremap <leader>p :r !wl-paste<CR><CR>
+
+"nnoremap <leader>c "+y
+"nnoremap <leader>p "+p
+"vnoremap <leader>c "+y
+"vnoremap <leader>p "+p
 
 " ----------------------------------------------------------------------------
 " vim-fugitive
@@ -144,9 +165,8 @@ nnoremap <leader>n  :new<Space>
 nmap <leader>ag <Esc>:Ack!
 
 "nerd-tree
-nnoremap <leader>nn :NERDTreeToggle<CR>
-nnoremap <leader>nf :NERDTreeFind<CR>
-
+nnoremap <leader>nn :Dirvish<CR>
+nnoremap <leader>nf :Dirvish %<CR>
 
 "Save quicker with <leader>w - saves all buffers
 nnoremap <leader>s :wa<CR>
@@ -164,6 +184,16 @@ map <c-l> <c-w>l
 
 filetype plugin on
 
+if has("multi_byte")
+  if &termencoding == ""
+    let &termencoding = &encoding
+  endif
+  set encoding=utf-8
+  setglobal fileencoding=utf-8
+  "setglobal bomb
+  set fileencodings=ucs-bom,utf-8,latin1
+endif
+
 " ELM
 let g:elm_format_autosave = 1
 let g:elm_setup_keybindings = 0
@@ -171,7 +201,7 @@ au FileType elm nnoremap <leader>. :ElmShowDocs<CR>
 au FileType elm nnoremap <leader>.. :ElmMake<CR>
 
 
-let g:mix_format_on_save = 0
+let g:mix_format_on_save = 1
 
 " ALE
 let g:elm_setup_keybindings = 0
@@ -195,6 +225,7 @@ let g:airline_powerline_fonts = 1
 let g:airline#extensions#ale#error_symbol = ' ⨉ '
 let g:airline#extensions#ale#warning_symbol = ' ⚠ '
 let g:airline_theme='onedark'
+"let g:airline_theme='gruvbox'
 
 set background=dark
 syntax enable
@@ -239,6 +270,21 @@ function! StripTrailingWhitespaces()
     %s/\s\+$//e
     call cursor(l, c)
 endfun
+
+function! s:ExecuteInShell(command)
+  let command = join(map(split(a:command), 'expand(v:val)'))
+  let winnr = bufwinnr('^' . command . '$')
+  silent! execute  winnr < 0 ? 'botright vnew ' . fnameescape(command) : winnr . 'wincmd w'
+  setlocal ft=text buftype=nowrite bufhidden=wipe nobuflisted noswapfile nowrap number
+  echo 'Execute ' . command . '...'
+  silent! execute 'silent %!'. command
+  silent! execute 'resize '
+  silent! redraw
+  silent! execute 'au BufUnload <buffer> execute bufwinnr(' . bufnr('#') . ') . ''wincmd w'''
+  silent! execute 'nnoremap <silent> <buffer> <LocalLeader>r :call <SID>ExecuteInShell(''' . command . ''')<CR>'
+  echo 'Shell command ' . command . ' executed.'
+endfunction
+command! -complete=shellcmd -nargs=+ Shell call s:ExecuteInShell(<q-args>)
 
 highlight ExtraWhitespace ctermbg=red guibg=red
 au ColorScheme * highlight ExtraWhitespace guibg=red
