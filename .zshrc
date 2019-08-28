@@ -1,5 +1,9 @@
-
+export GDK_BACKEND=wayland
+export CLUTTER_BACKEND=wayland
+export SDL_VIDEODRIVER=wayland
+export MOZ_ENABLE_WAYLAND=1
 export CLOUD_ENV=adrian
+export LC_ALL=en_US.UTF-8
 
 # Path to your oh-my-zsh installation.
 export ZSH=/home/crafter/.oh-my-zsh
@@ -30,10 +34,10 @@ DISABLE_AUTO_UPDATE="true"
 # DISABLE_AUTO_TITLE="true"
 
 # Uncomment the following line to enable command auto-correction.
-# ENABLE_CORRECTION="true"
+#ENABLE_CORRECTION="true"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
-# COMPLETION_WAITING_DOTS="true"
+COMPLETION_WAITING_DOTS="true"
 
 # Uncomment the following line if you want to disable marking untracked files
 # under VCS as dirty. This makes repository status check for large repositories
@@ -52,24 +56,24 @@ DISABLE_AUTO_UPDATE="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git nvm vi-mode)
+plugins=(git nvm vi-mode fzf mix)
 
 # User configuration
 
-export PATH="/opt/android-sdk/tools:/usr/bin:/bin:/usr/sbin:/sbin:$PATH"
+export PATH="/home/crafter/go/bin:/home/crafter/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/android-sdk/tools/bin/:$PATH"
 # export MANPATH="/usr/local/man:$MANPATH"
-export PATH="/home/crafter/SailfishOS/bin:$PATH"
 
 source $ZSH/oh-my-zsh.sh
 
 # You may need to manually set your language environment
-# export LANG=en_US.UTF-8
+export LANG=en_US.UTF-8
+precmd() { [ $? -eq 0 ] || printf "FUUUUU!!! 😠😠(╯°□°)╯︵ ┻━┻︵ ┻━┻ 💣💣\n" }
 
 # Preferred editor for local and remote sessions
 if [[ -n $SSH_CONNECTION ]]; then
-  export EDITOR='vim'
+  export EDITOR='nvim'
 else
-  export EDITOR='vim'
+  export EDITOR='nvim'
 fi
 
 # Compilation flags
@@ -86,22 +90,23 @@ fi
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-alias e="vim"
-alias v="vim"
+alias vzf='nvim "$(fzf)"'
+alias v='nvim'
 alias vi="vim -u NONE"
-alias open="xdg-open"
+function httpsopen() { xdg-open https://$1 }
+function aurinstall() { aur sync $1 && sudo pacman -S $1 }
+alias ins=aurinstall
+alias open=httpsopen
 export TERM="xterm-256color"
 export DEFAULT_USER=crafter
 export SELENIUM_BROWSER=CHROME_LOCAL
 alias fixit="sudo rm -f /var/lib/pacman/db.lck"
-alias update="aurcheck -d custom && aursync -u"
 alias lso="stat -c '%A %a %n' *"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 source /usr/share/nvm/init-nvm.sh
-source $HOME/.cargo/env # rust package manager
+#source $HOME/.cargo/env # rust package manager
 
-export XDG_CONFIG_HOME="$HOME"
-export ANDROID_HOME=/opt/android-sdk
+export XDG_CONFIG_HOME="$HOME/.config"
 export ERL_AFLAGS="-kernel shell_history enabled" # iex history

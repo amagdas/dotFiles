@@ -12,6 +12,7 @@ Plugin 'tpope/vim-eunuch'
 Plugin 'tpope/vim-endwise'
 Plugin 'tpope/vim-dadbod'
 Plugin 'justinmk/vim-dirvish'
+Plugin 'kristijanhusak/vim-dirvish-git'
 Plugin 'bling/vim-airline'
 Plugin 'w0rp/ale'
 
@@ -53,7 +54,9 @@ set t_Co=256
 set termencoding=utf-8
 set encoding=utf-8
 scriptencoding utf-8
-set term=xterm-256color
+if !has('nvim')
+   set term=xterm-256color
+endif
 set t_ut=
 set termguicolors
 
@@ -207,6 +210,7 @@ let g:mix_format_on_save = 1
 let g:elm_setup_keybindings = 0
 let g:jsx_ext_required = 0
 let g:ale_fix_on_save = 1
+let g:ale_elixir_elixir_ls_release = '/home/crafter/Work/elixir-ls/rel'
 
 let g:ale_javascript_eslint_executable = 'node_modules/eslint/bin/eslint.js'
 let g:ale_javascript_prettier_options = '--print-width 160 --single-quote --trailing-comma all --bracket-spacing --jsx-bracket-same-line'
