@@ -27,12 +27,13 @@ Plugin 'ervandew/supertab'
 Plugin 'mileszs/ack.vim'
 Plugin 'rking/ag.vim'
 Plugin 'esneider/YUNOcommit.vim'
-Plugin 'Konfekt/FastFold'
+"Plugin 'Konfekt/FastFold'
 
 " Themes
 Plugin 'joshdick/onedark.vim'
 Plugin 'morhetz/gruvbox'
-"Plugin 'tomasr/molokai'
+Plugin 'trevordmiller/nova-vim'
+Plugin 'tomasr/molokai'
 
 " Elixir
 "Plugin 'elixir-lang/vim-elixir'
@@ -42,6 +43,13 @@ Plugin 'mhinz/vim-mix-format'
 Plugin 'mmorearty/elixir-ctags'
 " End for elixir plugins
 
+" Erlang plugins
+Plugin 'vim-erlang/vim-erlang-runtime.git'
+Plugin 'vim-erlang/vim-erlang-compiler.git'
+Plugin 'vim-erlang/vim-erlang-omnicomplete.git'
+Plugin 'vim-erlang/vim-erlang-tags.git'
+" End for erlang plugins
+
 Plugin 'pangloss/vim-javascript'
 Plugin 'mxw/vim-jsx'
 
@@ -50,18 +58,32 @@ Plugin 'elmcast/elm-vim'
 call vundle#end()            " required
 filetype plugin indent on    " required
 
-set t_Co=256
 set termencoding=utf-8
 set encoding=utf-8
 scriptencoding utf-8
 if !has('nvim')
    set term=xterm-256color
 endif
-set t_ut=
-set termguicolors
 
-colorscheme onedark
-"colorscheme gruvbox
+if has("gui_running")
+    colors onedark
+    set guitablabel=%-0.12t%M
+    set guioptions-=T
+    set guioptions-=r
+    set guioptions-=L
+    set guioptions+=a
+    set guioptions-=m
+    set listchars=tab:▸\ ,eol:¬         " Invisibles using the Textmate style
+
+    set guifont=Fira\ Code\ Retina\ 13
+else
+  set t_Co=256
+  set t_ut=
+  set termguicolors
+  "colorscheme nova
+  colorscheme onedark
+  "colorscheme gruvbox
+endif
 
 let mapleader = ","
 let g:ackprg = 'ag --nogroup --nocolor --column'
@@ -136,7 +158,7 @@ nmap     <leader>g :Gstatus<CR>gg<c-n>
 nnoremap <leader>d :Gdiff<CR>
 
 " FZF
-let g:fzf_layout = { 'down': '~50%' }
+let g:fzf_layout = { 'down': '~60%' }
 nnoremap <leader>t :FZF<CR>
 nnoremap <leader><Space> :Buffers<CR>
 vnoremap <leader><Space> :Buffers<CR>
@@ -226,8 +248,9 @@ let g:ale_linters = {
 \}
 
 let g:airline_powerline_fonts = 1
-let g:airline#extensions#ale#error_symbol = ' ⨉ '
-let g:airline#extensions#ale#warning_symbol = ' ⚠ '
+let g:airline#extensions#ale#error_symbol = ' 🙅 '
+let g:airline#extensions#ale#warning_symbol = ' 🙈 '
+"let g:airline_theme='nova'
 let g:airline_theme='onedark'
 "let g:airline_theme='gruvbox'
 
@@ -256,6 +279,8 @@ set path==**         " gf rulez
 
 " Source the vimrc file after saving it
 "autocmd bufwritepost .vimrc source ~/.vimrc
+
+"au FileType qf botright cw 160
 
 " disable visual bell
 set noeb vb t_vb=
