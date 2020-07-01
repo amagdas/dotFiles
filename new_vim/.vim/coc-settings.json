@@ -1,0 +1,4 @@
+{
+  "erlang_ls.erlang_ls_path": "erlang_ls",
+  "erlang_ls.trace.server": "off"
+}
