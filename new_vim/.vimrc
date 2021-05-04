@@ -26,7 +26,6 @@ Plug 'junegunn/vim-emoji'
 
 Plug 'scrooloose/nerdcommenter'
 
-"Plug 'ervandew/supertab'
 Plug 'mileszs/ack.vim'
 Plug 'rking/ag.vim'
 Plug 'esneider/YUNOcommit.vim'
@@ -40,6 +39,7 @@ Plug 'esneider/YUNOcommit.vim'
 "Plug 'joshdick/onedark.vim'
 "Plug 'trevordmiller/nova-vim'
 "Plug 'tomasr/molokai'
+Plug 'morhetz/gruvbox'
 Plug 'altercation/vim-colors-solarized'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'tiagovla/tokyodark.nvim'
@@ -59,12 +59,20 @@ Plug 'vim-erlang/vim-erlang-skeletons', { 'for': 'erlang' }
 
 Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
 Plug 'mxw/vim-jsx', { 'for': 'javascript' }
-" End for erlang plugins
 
 Plug 'elmcast/elm-vim', { 'for': 'elm' }
 
 "Ziglang
 Plug 'ziglang/zig.vim', { 'for': 'zig' }
+
+"Nix
+Plug 'LnL7/vim-nix'
+
+"Haskell
+Plug 'prabirshrestha/vim-lsp', { 'for': 'haskell' }
+Plug 'prabirshrestha/asyncomplete.vim', { 'for': 'haskell' }
+Plug 'prabirshrestha/asyncomplete-lsp.vim', { 'for': 'haskell' }
+Plug 'mattn/vim-lsp-settings', { 'for': 'haskell' }
 
 call plug#end()
 
@@ -81,7 +89,6 @@ let g:tokyodark_enable_italic = 1
 let g:tokyodark_color_gamma = "1.0"
 
 if has("gui_running")
-    "colors onedark
     set background=dark
     let g:airline_theme='gruvbox'
     colors gruvbox
@@ -92,28 +99,21 @@ if has("gui_running")
     set guioptions+=a
     set guioptions-=m
     set listchars=tab:▸\ ,eol:¬         " Invisibles using the Textmate style
-
     set guifont=Fira\ Code\ Retina\ 14
 else
   set t_Co=256
   set t_ut=
   set termguicolors
-  "set background=dark
-  "let g:airline_theme='gruvbox'
+  set background=dark
+  "colorscheme solarized8
+  let g:airline_theme='gruvbox'
   if has('nvim')
     set t_8f=[38;2;%lu;%lu;%lum
     set t_8b=[48;2;%lu;%lu;%lum
-    set termguicolors
     colorscheme tokyodark
   else
     colorscheme gruvbox
   endif
-
-  "colorscheme onedark
-  "colorscheme solarized8
-  "set background=light
-  "let g:airline_theme='solarized'
-  "colorscheme solarized
 endif
 
 let mapleader = ","
@@ -160,8 +160,6 @@ vnoremap <F1> <ESC>
 " Clear last search highlighting
 nnoremap <Space> :noh<cr>
 
-" Navigations using keys up/down/left/right
-" Disabling default keys to learn the hjkl
 nnoremap <up> <nop>
 nnoremap <down> <nop>
 nnoremap <left> <nop>
@@ -197,7 +195,7 @@ vnoremap <leader><Space> :Buffers<CR>
 
 "nnoremap <leader>html :-1read $HOME/.vim/snippets/.skeleton.html<CR>3jwf>a
 
-" De-fuckify syntax hilighting
+" De-fuckify syntax highlighting
 "nnoremap <F3> :syn sync fromstart<CR>
 set pastetoggle=<leader>x
 
@@ -219,9 +217,10 @@ nnoremap <leader>n  :new<Space>
 "nnoremap <leader>bd  :bdelete<CR>
 "}}}
 
+" Search word under cursor with AG
 nmap <leader>ag <Esc>:Ack!
 
-"nerd-tree
+"Dirvish
 nnoremap <leader>nn :Dirvish<CR>
 nnoremap <leader>nf :Dirvish %<CR>
 
@@ -252,12 +251,13 @@ if has("multi_byte")
 endif
 
 " ELM
-let g:elm_format_autosave = 1
-let g:elm_setup_keybindings = 0
-au FileType elm nnoremap <leader>. :ElmShowDocs<CR>
-au FileType elm nnoremap <leader>.. :ElmMake<CR>
+"let g:elm_format_autosave = 1
+"let g:elm_setup_keybindings = 0
+"au FileType elm nnoremap <leader>. :ElmShowDocs<CR>
+"au FileType elm nnoremap <leader>.. :ElmMake<CR>
 
 
+" Elixir
 let g:mix_format_on_save = 1
 
 " ALE
@@ -298,6 +298,15 @@ set backspace=indent,eol,start
 autocmd BufRead,BufNewFile *.erl,*.es.*.hrl,*.xrl,*.config setlocal expandtab noautoindent
 au BufNewFile,BufRead *.erl,*.es,*.hrl,*.xrl,*.config setf erlang
 "let g:erlang_tags_auto_update = 0
+
+" Haskell-vim
+let g:haskell_enable_quantification = 1   " to enable highlighting of `forall`
+let g:haskell_enable_recursivedo = 1      " to enable highlighting of `mdo` and `rec`
+let g:haskell_enable_arrowsyntax = 1      " to enable highlighting of `proc`
+let g:haskell_enable_pattern_synonyms = 1 " to enable highlighting of `pattern`
+let g:haskell_enable_typeroles = 1        " to enable highlighting of type roles
+let g:haskell_enable_static_pointers = 1  " to enable highlighting of `static`
+let g:haskell_backpack = 1                " to enable highlighting of backpack keywords
 
 "Html
 "autocmd FileType html,xhtml set omnifunc=htmlcomplete#CompleteTags
