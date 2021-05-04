@@ -1,1 +1,0 @@
-/home/crafter/.config/nvim/init.vim

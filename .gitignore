@@ -1,3 +1,5 @@
 *.swp
 .vim/bundle/
 .vim/view/
+new_vim/.vim/plugged/
+new_vim/.vim/view/
