@@ -30,7 +30,6 @@ Plug 'junegunn/vim-emoji'
 
 Plug 'scrooloose/nerdcommenter'
 
-"Plug 'ervandew/supertab'
 Plug 'mileszs/ack.vim'
 Plug 'rking/ag.vim'
 Plug 'esneider/YUNOcommit.vim'
@@ -51,18 +50,25 @@ Plug 'mmorearty/elixir-ctags'
 " End for elixir plugins
 
 " Erlang plugins
-"Plugin 'vim-erlang/vim-erlang-runtime.git'
-"Plugin 'vim-erlang/vim-erlang-compiler.git'
-"Plugin 'vim-erlang/vim-erlang-omnicomplete.git'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'hyhugh/coc-erlang_ls', {'do': 'yarn install --frozen-lockfile'}
 "Plug 'vim-erlang/vim-erlang-tags'
 Plug 'vim-erlang/vim-erlang-skeletons'
 " End for erlang plugins
 
-Plug 'pangloss/vim-javascript'
-Plug 'mxw/vim-jsx'
-Plug 'elmcast/elm-vim'
+Plug 'LnL7/vim-nix'
+
+"Plug 'pangloss/vim-javascript'
+"Plug 'mxw/vim-jsx'
+"Plug 'elmcast/elm-vim'
+
+"Haskell
+"Plug 'neovimhaskell/haskell-vim'
+"Plug 'alx741/vim-hindent' " Optional
+Plug 'prabirshrestha/vim-lsp'
+Plug 'prabirshrestha/asyncomplete.vim'
+Plug 'prabirshrestha/asyncomplete-lsp.vim'
+Plug 'mattn/vim-lsp-settings'
 
 call plug#end()
 
@@ -75,9 +81,9 @@ endif
 
 if has("gui_running")
     "colors onedark
-    set background=light
+    "set background=dark
     let g:airline_theme='solarized'
-    colors solarized
+    colors gruvbox
     set guitablabel=%-0.12t%M
     set guioptions-=T
     set guioptions-=r
@@ -91,11 +97,11 @@ else
   set t_Co=256
   set t_ut=
   set termguicolors
+  let g:airline_theme='gruvbox'
+  colorscheme gruvbox
+  "colorscheme solarized8
   set background=light
-  let g:airline_theme='solarized'
-  "colorscheme onedark
-  colorscheme solarized8
-  "set background=light
+  "set background=dark
   "let g:airline_theme='solarized'
   "colorscheme solarized
 endif
@@ -144,8 +150,6 @@ vnoremap <F1> <ESC>
 " Clear last search highlighting
 nnoremap <Space> :noh<cr>
 
-" Navigations using keys up/down/left/right
-" Disabling default keys to learn the hjkl
 nnoremap <up> <nop>
 nnoremap <down> <nop>
 nnoremap <left> <nop>
@@ -181,7 +185,7 @@ vnoremap <leader><Space> :Buffers<CR>
 
 "nnoremap <leader>html :-1read $HOME/.vim/snippets/.skeleton.html<CR>3jwf>a
 
-" De-fuckify syntax hilighting
+" De-fuckify syntax highlighting
 "nnoremap <F3> :syn sync fromstart<CR>
 set pastetoggle=<leader>x
 
@@ -203,9 +207,10 @@ nnoremap <leader>n  :new<Space>
 "nnoremap <leader>bd  :bdelete<CR>
 "}}}
 
+" Search word under cursor with AG
 nmap <leader>ag <Esc>:Ack!
 
-"nerd-tree
+"Dirvish
 nnoremap <leader>nn :Dirvish<CR>
 nnoremap <leader>nf :Dirvish %<CR>
 
@@ -236,12 +241,13 @@ if has("multi_byte")
 endif
 
 " ELM
-let g:elm_format_autosave = 1
-let g:elm_setup_keybindings = 0
-au FileType elm nnoremap <leader>. :ElmShowDocs<CR>
-au FileType elm nnoremap <leader>.. :ElmMake<CR>
+"let g:elm_format_autosave = 1
+"let g:elm_setup_keybindings = 0
+"au FileType elm nnoremap <leader>. :ElmShowDocs<CR>
+"au FileType elm nnoremap <leader>.. :ElmMake<CR>
 
 
+" Elixir
 let g:mix_format_on_save = 1
 
 " ALE
@@ -282,6 +288,15 @@ set backspace=indent,eol,start
 autocmd BufRead,BufNewFile *.erl,*.es.*.hrl,*.xrl,*.config setlocal expandtab noautoindent
 au BufNewFile,BufRead *.erl,*.es,*.hrl,*.xrl,*.config setf erlang
 "let g:erlang_tags_auto_update = 0
+
+" Haskell-vim
+let g:haskell_enable_quantification = 1   " to enable highlighting of `forall`
+let g:haskell_enable_recursivedo = 1      " to enable highlighting of `mdo` and `rec`
+let g:haskell_enable_arrowsyntax = 1      " to enable highlighting of `proc`
+let g:haskell_enable_pattern_synonyms = 1 " to enable highlighting of `pattern`
+let g:haskell_enable_typeroles = 1        " to enable highlighting of type roles
+let g:haskell_enable_static_pointers = 1  " to enable highlighting of `static`
+let g:haskell_backpack = 1                " to enable highlighting of backpack keywords
 
 "Html
 "autocmd FileType html,xhtml set omnifunc=htmlcomplete#CompleteTags

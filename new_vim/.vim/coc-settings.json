@@ -1,4 +1,13 @@
 {
   "erlang_ls.erlang_ls_path": "erlang_ls",
-  "erlang_ls.trace.server": "off"
+  "erlang_ls.trace.server": "off",
+  "languageserver": {
+    "haskell": {
+      "command": "haskell-language-server-wrapper",
+      "args": ["--lsp"],
+      "rootPatterns": ["*.cabal", "stack.yaml", "cabal.project", "package.yaml", "hie.yaml"],
+      "filetypes": ["haskell", "lhaskell"],
+      "formattingProvider": "stylish-haskell"
+    }
+  }
 }
