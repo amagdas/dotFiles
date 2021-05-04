@@ -1,6 +1,6 @@
 [user]
   name = Adrian Magdas
-  email = adrian.magdas@klarna.com
+  email = adrian@craftingsoftware.com
 
 [color]
   branch = auto
@@ -154,3 +154,5 @@
   clean = git lfs clean %f
   smudge = git lfs smudge %f
   required = true
+[init]
+	defaultBranch = main

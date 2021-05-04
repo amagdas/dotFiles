@@ -5,10 +5,6 @@ if empty(glob('~/.vim/autoload/plug.vim'))
 endif
 
 call plug#begin('~/.vim/plugged')
-Plug 'junegunn/seoul256.vim'
-Plug 'junegunn/goyo.vim'
-Plug 'junegunn/limelight.vim'
-Plug 'lifepillar/vim-solarized8'
 Plug 'jceb/vim-orgmode'
 
 Plug 'tpope/vim-sensible'
@@ -36,33 +32,39 @@ Plug 'rking/ag.vim'
 Plug 'esneider/YUNOcommit.vim'
 
 " Themes
-Plug 'joshdick/onedark.vim'
-Plug 'morhetz/gruvbox'
-Plug 'trevordmiller/nova-vim'
-Plug 'tomasr/molokai'
+"Plug 'junegunn/seoul256.vim'
+"Plug 'junegunn/goyo.vim'
+"Plug 'junegunn/limelight.vim'
+"Plug 'lifepillar/vim-solarized8'
+"Plug 'morhetz/gruvbox'
+"Plug 'joshdick/onedark.vim'
+"Plug 'trevordmiller/nova-vim'
+"Plug 'tomasr/molokai'
 Plug 'altercation/vim-colors-solarized'
 Plug 'vim-airline/vim-airline-themes'
+Plug 'tiagovla/tokyodark.nvim'
 
 " Elixir
-Plug 'elixir-editors/vim-elixir'
-Plug 'slashmili/alchemist.vim'
-Plug 'mhinz/vim-mix-format'
-Plug 'mmorearty/elixir-ctags'
+Plug 'elixir-editors/vim-elixir', { 'for': 'elixir' }
+Plug 'slashmili/alchemist.vim', { 'for': 'elixir' }
+Plug 'mhinz/vim-mix-format', { 'for': 'elixir' }
+Plug 'mmorearty/elixir-ctags', { 'for': 'elixir' }
 " End for elixir plugins
 
-" Erlang plugins
-"Plugin 'vim-erlang/vim-erlang-runtime.git'
-"Plugin 'vim-erlang/vim-erlang-compiler.git'
-"Plugin 'vim-erlang/vim-erlang-omnicomplete.git'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'hyhugh/coc-erlang_ls', {'do': 'yarn install --frozen-lockfile'}
-"Plug 'vim-erlang/vim-erlang-tags'
-Plug 'vim-erlang/vim-erlang-skeletons'
+" Erlang plugins
+Plug 'hyhugh/coc-erlang_ls', {'do': 'yarn install --frozen-lockfile', 'for': 'erlang' }
+Plug 'vim-erlang/vim-erlang-skeletons', { 'for': 'erlang' }
 " End for erlang plugins
 
-Plug 'pangloss/vim-javascript'
-Plug 'mxw/vim-jsx'
-Plug 'elmcast/elm-vim'
+Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
+Plug 'mxw/vim-jsx', { 'for': 'javascript' }
+" End for erlang plugins
+
+Plug 'elmcast/elm-vim', { 'for': 'elm' }
+
+"Ziglang
+Plug 'ziglang/zig.vim', { 'for': 'zig' }
 
 call plug#end()
 
@@ -73,11 +75,16 @@ if !has('nvim')
    set term=xterm-256color
 endif
 
+let g:tokyodark_transparent_background = 1
+let g:tokyodark_enable_italic_comment = 1
+let g:tokyodark_enable_italic = 1
+let g:tokyodark_color_gamma = "1.0"
+
 if has("gui_running")
     "colors onedark
-    set background=light
-    let g:airline_theme='solarized'
-    colors solarized
+    set background=dark
+    let g:airline_theme='gruvbox'
+    colors gruvbox
     set guitablabel=%-0.12t%M
     set guioptions-=T
     set guioptions-=r
@@ -91,10 +98,19 @@ else
   set t_Co=256
   set t_ut=
   set termguicolors
-  set background=light
-  let g:airline_theme='solarized'
+  "set background=dark
+  "let g:airline_theme='gruvbox'
+  if has('nvim')
+    set t_8f=[38;2;%lu;%lu;%lum
+    set t_8b=[48;2;%lu;%lu;%lum
+    set termguicolors
+    colorscheme tokyodark
+  else
+    colorscheme gruvbox
+  endif
+
   "colorscheme onedark
-  colorscheme solarized8
+  "colorscheme solarized8
   "set background=light
   "let g:airline_theme='solarized'
   "colorscheme solarized
@@ -351,7 +367,7 @@ set nobackup
 set nowritebackup
 
 " Give more space for displaying messages.
-set cmdheight=2
+set cmdheight=1
 
 " Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
 " delays and poor user experience.
@@ -380,15 +396,6 @@ endfunction
 
 " Use <c-space> to trigger completion.
 inoremap <silent><expr> <c-space> coc#refresh()
-
-" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
-" position. Coc only does snippet and additional edit on confirm.
-"if has('patch8.1.1068')
-  "" Use `complete_info` if your (Neo)Vim version supports it.
-  "inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
-"else
-  "imap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-"endif
 
 " Use `[g` and `]g` to navigate diagnostics
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
