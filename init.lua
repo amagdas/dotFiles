@@ -12,68 +12,76 @@ local function map(mode, lhs, rhs, opts)
 end
 
 -- Plugins extravaganza
-cmd 'packadd paq-nvim'               -- load the package manager
-local paq = require('paq-nvim').paq  -- a convenient alias
-paq {'savq/paq-nvim', opt = true}    -- paq-nvim manages itself
+require "paq" {
+	{'savq/paq-nvim', opt = true};    -- paq-nvim manages itself
 
+	-- syntax highlighting
+	'nvim-treesitter/nvim-treesitter';
+	'nvim-treesitter/nvim-treesitter-context';
+	-- LSP management
+	'neovim/nvim-lspconfig';
 
--- syntax highlighting
-paq {'nvim-treesitter/nvim-treesitter'}
--- LSP management
-paq {'neovim/nvim-lspconfig'}
+	-- completion
+	'hrsh7th/cmp-nvim-lsp';
+	'hrsh7th/cmp-buffer';
+	'hrsh7th/cmp-path';
+	'hrsh7th/cmp-cmdline';
+	'hrsh7th/nvim-cmp';
 
--- completion
-paq {'hrsh7th/cmp-nvim-lsp'}
-paq {'hrsh7th/cmp-buffer'}
-paq {'hrsh7th/cmp-path'}
-paq {'hrsh7th/cmp-cmdline'}
-paq {'hrsh7th/nvim-cmp'}
+	-- For vsnip users.
+	'hrsh7th/cmp-vsnip';
+	'hrsh7th/vim-vsnip';
 
--- For vsnip users.
-paq {'hrsh7th/cmp-vsnip'}
-paq {'hrsh7th/vim-vsnip'}
+	-- fuzzy search
+	{'junegunn/fzf', run = fn['fzf#install']};
+	'junegunn/fzf.vim';
+	'ojroques/nvim-lspfuzzy';
 
--- fuzzy search
-paq {'junegunn/fzf', run = fn['fzf#install']}
-paq {'junegunn/fzf.vim'}
-paq {'ojroques/nvim-lspfuzzy'}
+	-- fuzzy search via telescope
+	'nvim-lua/plenary.nvim';
+	'nvim-telescope/telescope.nvim';
+	'nvim-telescope/telescope-fzf-native.nvim';
 
--- fuzzy search via telescope
-paq {'nvim-lua/plenary.nvim'}
-paq {'nvim-telescope/telescope.nvim'}
---paq {'nvim-telescope/telescope-fzf-native.nvim'}
+	-- tree/file navigation
+	'justinmk/vim-dirvish';
+	'kristijanhusak/vim-dirvish-git';
 
--- tree/file navigation
-paq {'justinmk/vim-dirvish'}
-paq {'kristijanhusak/vim-dirvish-git'}
+	'tpope/vim-unimpaired';
+	'tpope/vim-repeat';
+	'tpope/vim-surround';
+	'tpope/vim-fugitive';
+	'tpope/vim-eunuch';
+	'tpope/vim-endwise';
 
-paq {'tpope/vim-unimpaired'}
-paq {'tpope/vim-repeat'}
-paq {'tpope/vim-surround'}
-paq {'tpope/vim-fugitive'}
-paq {'tpope/vim-eunuch'}
-paq {'tpope/vim-endwise'}
+	'tpope/vim-rails';
+	'tpope/vim-endwise';
 
-paq {'tpope/vim-rails'}
-paq {'tpope/vim-endwise'}
+	'junegunn/goyo.vim';
+	-- statusline
+	'hoob3rt/lualine.nvim';
+	'ryanoasis/vim-devicons';
+	'kyazdani42/nvim-web-devicons';
 
--- statusline
-paq {'hoob3rt/lualine.nvim'}
-paq {'ryanoasis/vim-devicons'}
-paq {'kyazdani42/nvim-web-devicons'}
+	'scrooloose/nerdcommenter';
+	-- search
+	'mileszs/ack.vim';
+	'rking/ag.vim';
 
-paq {'scrooloose/nerdcommenter'}
--- search
-paq {'mileszs/ack.vim'}
-paq {'rking/ag.vim'}
+	-- themes
+	'morhetz/gruvbox';
+	'altercation/vim-colors-solarized';
+	'vim-airline/vim-airline-themes';
+	'tiagovla/tokyodark.nvim';
+	'frenzyexists/aquarium-vim';
+	-- File types
+	'google/vim-jsonnet'
+	-- End of plugins extravaganza
+}
 
--- themes
-paq {'morhetz/gruvbox'}
-paq {'altercation/vim-colors-solarized'}
-paq {'vim-airline/vim-airline-themes'}
-paq {'tiagovla/tokyodark.nvim'}
-paq {'frenzyexists/aquarium-vim'}
--- End of plugins extravaganza
+-- Disable netrw
+g.loaded_netrw = 1
+g.loaded_netrwPlugin = 1
+
 
 -- setup status line
 require'lualine'.setup {
@@ -136,8 +144,10 @@ opt.splitright = true               -- Put new windows right of current
 opt.termguicolors = true            -- True color support
 opt.wildmode = {'list', 'longest'}  -- Command-line completion mode
 opt.wrap = false                    -- Disable line wrap
-opt.textwidth = 180                 -- show max column ruler
--- dirvish
+opt.textwidth = 140                 -- show max column ruler
+opt.colorcolumn = '+1'              -- highlight max column ruler ??SLOW??
+
+-- dirvish folders first
 g['dirvish_mode'] = [[:sort ,^.*[\/],]]
 
 -- Search with ag
@@ -166,9 +176,6 @@ require('telescope').setup {
 --require('telescope').load_extension('fzf')
 
 -- FZF file & buffer search
---map('n', '<leader>t', ':FZF<CR>')
---map('n', '<leader><Space>', ':Buffers<CR>')
---map('v', '<leader><Space>', ':Buffers<CR>')
 map('n', '<leader>t','<cmd>Telescope find_files<cr>')
 map('n', '<leader>fg', '<cmd>Telescope live_grep<cr>')
 map('n', '<leader><Space>', '<cmd>Telescope buffers<cr>')
@@ -193,6 +200,10 @@ map('n', '<leader>nf', ':Dirvish %<CR>')
 map('n', '<leader>s', ':wa<CR>')
 map('v', '<leader>c', '"+y')
 map('v', '<leader>p', '"+p')
+map('n', '<leader>zz', ':Goyo 140x99<CR>')
+map('v', '<leader>zz', ':Goyo 140x99<CR>')
+map('n', '<leader>zx', ':Goyo!<CR>')
+map('v', '<leader>zx', ':Goyo!<CR>')
 
 api.nvim_command("au FileType go set noexpandtab")
 api.nvim_command("au FileType go set shiftwidth=4")
@@ -203,21 +214,31 @@ local cmp = require'cmp'
 
 cmp.setup({
 	snippet = {
-		-- REQUIRED - you must specify a snippet engine
-		expand = function(args)
-			vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
-		end,
-	},
+      -- REQUIRED - you must specify a snippet engine
+      expand = function(args)
+        vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
+        -- require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
+        -- require('snippy').expand_snippet(args.body) -- For `snippy` users.
+        -- vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
+      end,
+    },
 	mapping = {
-      ['<C-d>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
-      ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
-      ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
-      ['<C-y>'] = cmp.config.disable, -- Specify `cmp.config.disable` if you want to remove the default `<C-y>` mapping.
-      ['<C-e>'] = cmp.mapping({
-        i = cmp.mapping.abort(),
-        c = cmp.mapping.close(),
-      }),
+      ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+      ['<C-f>'] = cmp.mapping.scroll_docs(4),
+      ['<C-Space>'] = cmp.mapping.complete(),
+      ['<C-e>'] = cmp.mapping.abort(),
       ['<CR>'] = cmp.mapping.confirm({ select = true }),
+	  ['<Tab>'] = function(fallback)
+      if cmp.visible() then
+        cmp.select_next_item()
+      else
+        fallback()
+      end
+    end
+    },
+	window = {
+      completion = cmp.config.window.bordered(),
+      documentation = cmp.config.window.bordered(),
     },
 	sources = cmp.config.sources({
 		{ name = 'nvim_lsp' },
@@ -274,21 +295,40 @@ local on_attach = function(client, bufnr)
 	end
 
 	api.nvim_command("au BufWritePre *.go lua goimports(1000)")
-	api.nvim_command("au BufWritePre <buffer> lua vim.lsp.buf.formatting_sync(nil, 1000)")
+	api.nvim_command("au BufWritePre <buffer> lua vim.lsp.buf.format(nil, 1000)")
 end
 
-local servers = {'gopls', 'pyright', 'solargraph'}
+local servers = {'pyright', 'solargraph'}
 for _, lsp in ipairs(servers) do
 	nvim_lsp[lsp].setup {
 		on_attach = on_attach,
 		capabilities = capabilities,
+		debounce_text_changes = 150,
 	}
 end
 
-nvim_lsp.elixirls.setup{
-	cmd = { vim.loop.os_homedir().."/bin/elixir-ls/launch-server.sh" },
+nvim_lsp.gopls.setup{
 	on_attach = on_attach,
 	capabilities = capabilities,
+	debounce_text_changes = 150,
+	settings = {
+		gopls = {
+			experimentalPostfixCompletions = true,
+			analyses = {
+				unusedparams = true,
+				shadow = true,
+			},
+			staticcheck = true,
+			buildFlags = {"-tags=or_test,or_dev,or_e2e,or_int,or_manual"},
+		},
+	},
+}
+
+nvim_lsp.elixirls.setup{
+	cmd = { vim.loop.os_homedir().."/bin/elixir-ls/new/launch.sh" },
+	on_attach = on_attach,
+	capabilities = capabilities,
+	debounce_text_changes = 150,
 }
 
 function goimports(timeout_ms)
@@ -311,7 +351,7 @@ function goimports(timeout_ms)
 	-- should be executed first.
 	if action.edit or type(action.command) == "table" then
 		if action.edit then
-			vim.lsp.util.apply_workspace_edit(action.edit)
+			vim.lsp.util.apply_workspace_edit(action.edit, "utf-8")
 		end
 		if type(action.command) == "table" then
 			vim.lsp.buf.execute_command(action.command)
@@ -323,7 +363,7 @@ end
 
 -- Treesitter - syntax highlighter
 require'nvim-treesitter.configs'.setup {
-	ensure_installed = 'maintained',
+	ensure_installed = 'all',
 	highlight = {
 		enable = true
 	},
