@@ -4,7 +4,6 @@ local fn = vim.fn    -- to call Vim functions e.g. fn.bufnr()
 local g = vim.g      -- a table to access global variables
 local opt = vim.opt  -- to set options
 
--- Custom function for keymapping
 local function map(mode, lhs, rhs, opts)
 	local options = {noremap = true}
 	if opts then options = vim.tbl_extend('force', options, opts) end
@@ -43,8 +42,9 @@ require "paq" {
 	'nvim-telescope/telescope-fzf-native.nvim';
 
 	-- tree/file navigation
-	'justinmk/vim-dirvish';
-	'kristijanhusak/vim-dirvish-git';
+	--'justinmk/vim-dirvish';
+	--'kristijanhusak/vim-dirvish-git';
+	{'nvim-neo-tree/neo-tree.nvim', branch = 'v2.x'},
 
 	'tpope/vim-unimpaired';
 	'tpope/vim-repeat';
@@ -61,6 +61,7 @@ require "paq" {
 	'hoob3rt/lualine.nvim';
 	'ryanoasis/vim-devicons';
 	'kyazdani42/nvim-web-devicons';
+	'MunifTanjim/nui.nvim';
 
 	'scrooloose/nerdcommenter';
 	-- search
@@ -73,6 +74,8 @@ require "paq" {
 	'vim-airline/vim-airline-themes';
 	'tiagovla/tokyodark.nvim';
 	'frenzyexists/aquarium-vim';
+	'iandwelker/rose-pine-vim';
+	'catppuccin/nvim';
 	-- File types
 	'google/vim-jsonnet'
 	-- End of plugins extravaganza
@@ -116,13 +119,30 @@ require'lualine'.setup {
 g.mapleader = ','
 
 -- theme setup
-cmd 'colorscheme tokyodark'
-g['tokyodark_transparent_background'] = 1
-g['tokyodark_enable_italic_comment'] = 1
-g['tokyodark_enable_italic'] = 1
-g['tokyodark_color_gamma'] = "1.0"
+--cmd 'colorscheme gruvbox'
+--cmd 'set background=light'
+
+--cmd 'set background=light'
+cmd 'set background=dark'
+require("catppuccin").setup({
+	flavour = "mocha", -- latte, frappe, macchiato, mocha
+    background = { -- :h background
+        light = "latte",
+        dark = "mocha",
+    },
+    transparent_background = true,
+})
+
+cmd 'colorscheme catppuccin'
+--[[cmd 'colorscheme tokyodark']]
+--[[g['tokyodark_transparent_background'] = 1]]
+--[[g['tokyodark_enable_italic_comment'] = 1]]
+--[[g['tokyodark_enable_italic'] = 1]]
+--[[g['tokyodark_color_gamma'] = "1.0"]]
 
 -- Global options
+vim.o.guifont = "Iosevka Nerd Font Mono:h16" -- text below applies for VimScript
+
 opt.completeopt = {'menu', 'menuone', 'noselect'}  -- Completion options
 opt.hidden = true                   -- Enable background buffers
 opt.ignorecase = true               -- Ignore case
@@ -145,10 +165,10 @@ opt.termguicolors = true            -- True color support
 opt.wildmode = {'list', 'longest'}  -- Command-line completion mode
 opt.wrap = false                    -- Disable line wrap
 opt.textwidth = 140                 -- show max column ruler
-opt.colorcolumn = '+1'              -- highlight max column ruler ??SLOW??
+--opt.colorcolumn = '+1'              -- highlight max column ruler ??SLOW??
 
 -- dirvish folders first
-g['dirvish_mode'] = [[:sort ,^.*[\/],]]
+--g['dirvish_mode'] = [[:sort ,^.*[\/],]]
 
 -- Search with ag
 g['ackprg'] = 'ag --nogroup --nocolor --column'
@@ -194,14 +214,14 @@ map('n', '<leader>,', ':b#<CR>')
 map('n', '<leader>n', ':new<Space>')
 
 -- Dirvish
-map('n', '<leader>nn', ':Dirvish<CR>')
-map('n', '<leader>nf', ':Dirvish %<CR>')
+map('n', '<leader>nn', ':NeoTreeShow<CR>')
+map('n', '<leader>nf', ':NeoTreeReveal<CR>')
 
 map('n', '<leader>s', ':wa<CR>')
 map('v', '<leader>c', '"+y')
 map('v', '<leader>p', '"+p')
-map('n', '<leader>zz', ':Goyo 140x99<CR>')
-map('v', '<leader>zz', ':Goyo 140x99<CR>')
+map('n', '<leader>zz', ':Goyo 160x99<CR>')
+map('v', '<leader>zz', ':Goyo 160x99<CR>')
 map('n', '<leader>zx', ':Goyo!<CR>')
 map('v', '<leader>zx', ':Goyo!<CR>')
 
@@ -209,6 +229,23 @@ api.nvim_command("au FileType go set noexpandtab")
 api.nvim_command("au FileType go set shiftwidth=4")
 api.nvim_command("au FileType go set softtabstop=4")
 api.nvim_command("au FileType go set tabstop=4")
+
+nt = require("neo-tree")
+nt.setup({
+	buffers = {
+		follow_current_file = true, -- This will find and focus the file in the active buffer every
+		-- time the current file is changed while the tree is open.
+		group_empty_dirs = true, -- when true, empty folders will be grouped together
+		show_unloaded = true,
+		window = {
+			mappings = {
+				["bd"] = "buffer_delete",
+				["<bs>"] = "navigate_up",
+				["."] = "set_root",
+			}
+		},
+	},
+})
 
 local cmp = require'cmp'
 
@@ -249,7 +286,7 @@ cmp.setup({
 })
 
 -- Setup lspconfig.
-local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
 -- Pretty diagnostic signs
 cmd [[ sign define DiagnosticSignError text=🔴 ]]
@@ -288,9 +325,9 @@ local on_attach = function(client, bufnr)
 	buf_set_keymap('n', '<leader>a', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
 
 	-- Set some keybinds conditional on server capabilities
-	if client.resolved_capabilities.document_formatting then
+	if client.server_capabilities.document_formatting then
 		buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
-	elseif client.resolved_capabilities.document_range_formatting then
+	elseif client.server_capabilities.document_range_formatting then
 		buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
 	end
 
@@ -325,7 +362,7 @@ nvim_lsp.gopls.setup{
 }
 
 nvim_lsp.elixirls.setup{
-	cmd = { vim.loop.os_homedir().."/bin/elixir-ls/new/launch.sh" },
+	cmd = { vim.loop.os_homedir().."/bin/elixir-ls-1.14-24.3/launch.sh" },
 	on_attach = on_attach,
 	capabilities = capabilities,
 	debounce_text_changes = 150,
@@ -363,6 +400,7 @@ end
 
 -- Treesitter - syntax highlighter
 require'nvim-treesitter.configs'.setup {
+	ignore_install = { "phpdoc" },
 	ensure_installed = 'all',
 	highlight = {
 		enable = true
