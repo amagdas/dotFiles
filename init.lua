@@ -32,7 +32,7 @@ require "paq" {
 	'hrsh7th/vim-vsnip';
 
 	-- fuzzy search
-	{'junegunn/fzf', run = fn['fzf#install']};
+	{'junegunn/fzf', build = fn['fzf#install']};
 	'junegunn/fzf.vim';
 	'ojroques/nvim-lspfuzzy';
 
@@ -344,6 +344,14 @@ for _, lsp in ipairs(servers) do
 	}
 end
 
+nvim_lsp.elixirls.setup{
+	--cmd = { "/opt/homebrew/Cellar/elixir-ls/0.17.4/libexec/language_server.sh" },
+	cmd = { "/opt/homebrew/bin/elixir-ls" },
+	on_attach = on_attach,
+	capabilities = capabilities,
+	debounce_text_changes = 150,
+}
+
 nvim_lsp.gopls.setup{
 	on_attach = on_attach,
 	capabilities = capabilities,
@@ -359,13 +367,6 @@ nvim_lsp.gopls.setup{
 			buildFlags = {"-tags=or_test,or_dev,or_e2e,or_int,or_manual"},
 		},
 	},
-}
-
-nvim_lsp.elixirls.setup{
-	cmd = { vim.loop.os_homedir().."/bin/elixir-ls-1.14-24.3/launch.sh" },
-	on_attach = on_attach,
-	capabilities = capabilities,
-	debounce_text_changes = 150,
 }
 
 function goimports(timeout_ms)
