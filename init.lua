@@ -20,6 +20,8 @@ require "paq" {
 	-- LSP management
 	'neovim/nvim-lspconfig';
 
+	-- navigation
+	'alexghergh/nvim-tmux-navigation';
 	-- completion
 	'hrsh7th/cmp-nvim-lsp';
 	'hrsh7th/cmp-buffer';
@@ -42,8 +44,6 @@ require "paq" {
 	'nvim-telescope/telescope-fzf-native.nvim';
 
 	-- tree/file navigation
-	--'justinmk/vim-dirvish';
-	--'kristijanhusak/vim-dirvish-git';
 	{'nvim-neo-tree/neo-tree.nvim', branch = 'v2.x'},
 
 	'tpope/vim-unimpaired';
@@ -191,6 +191,19 @@ require('telescope').setup {
 		}
 	}
 }
+
+require('nvim-tmux-navigation').setup {
+	disable_when_zoomed = true, -- defaults to false
+	keybindings = {
+		left = "<C-h>",
+		down = "<C-j>",
+		up = "<C-k>",
+		right = "<C-l>",
+		last_active = "<C-\\>",
+		next = "<C-Space>",
+	}
+}
+
 -- To get fzf loaded and working with telescope, you need to call
 -- load_extension, somewhere after setup function:
 --require('telescope').load_extension('fzf')
