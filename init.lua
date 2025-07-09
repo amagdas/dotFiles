@@ -51,7 +51,6 @@ require "paq" {
 	'tpope/vim-surround';
 	'tpope/vim-fugitive';
 	'tpope/vim-eunuch';
-	'tpope/vim-endwise';
 
 	'tpope/vim-rails';
 	'tpope/vim-endwise';

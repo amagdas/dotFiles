@@ -1,6 +1,12 @@
 [user]
-  name = Adrian Magdas
-  email = magdasadrian@protonmail.com
+	email = magdasadrian@protonmail.com
+[init]
+	defaultBranch = main
+[url "https://github.com/"]
+	insteadOf = git@github.com:
+	insteadOf = ssh://git@github.com/
+[url "https://"]
+	insteadOf = git://
 
 [color]
   branch = auto
@@ -41,9 +47,8 @@
   co = checkout
   bd = branch -D
   br = !git branch --sort=-committerdate | nl | less
-    #"!git branch -ra | grep -v done"
   bra = branch -ra
-    #list commands
+  #list commands
   le = log --oneline --decorate
   ll = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --numstat
   ls = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate
@@ -121,9 +126,15 @@
   wipe = !git add -A && git commit -qm 'WIPE SAVEPOINT' && git reset HEAD~1 --hard
   bclean = "!f() { git branch --merged ${1-master} | grep -v " ${1-master}$" | xargs -r git branch -d; }; f"
   bdone = "!f() { git checkout ${1-master} && git up && git bclean ${1-master}; }; f"
-  pr = !open `git config remote.origin.url`/compare/$(git rev-parse --abbrev-ref HEAD)
+  pr = "!f() { \
+		open \"$(git ls-remote --get-url $(git config --get branch.$(git rev-parse --abbrev-ref HEAD).remote) \
+		| sed 's|git@github.com:\\(.*\\)$|https://github.com/\\1|' \
+		| sed 's|\\.git$||'; \
+		)/compare/master...$(git rev-parse --abbrev-ref HEAD)?expand=1\"; \
+	}; f"
 [push]
   default = tracking
+	autoSetupRemote = true
 [pull]
   default = current
 [diff]
@@ -143,9 +154,6 @@
 [filter "media"]
   clean = git-media-clean %f
   smudge = git-media-smudge %f
-[gui]
-  fontui = -family \"DejaVu Sans\" -size 9 -weight normal -slant roman -underline 0 -overstrike 0
-  fontdiff = -family \"DejaVu Sans Mono\" -size 9 -weight normal -slant roman -underline 0 -overstrike 0
 [filter "hawser"]
   clean = git hawser clean %f
   smudge = git hawser smudge %f
@@ -154,5 +162,4 @@
   clean = git lfs clean %f
   smudge = git lfs smudge %f
   required = true
-[init]
-  defaultBranch = main
+
